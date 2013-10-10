@@ -3,6 +3,8 @@
 
 #include "Sample.h"
 
+class Sample;
+
 class Sampler {
 public:
 	float width, height, count;

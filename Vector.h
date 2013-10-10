@@ -3,6 +3,8 @@
 
 #include "Point.h"
 
+class Point;
+
 class Vector {
 public:
 	float x, y, z;

@@ -1,5 +1,4 @@
 #include "Sampler.h"
-#include "Sample.h"
 #include <math.h>
 
 void Sampler::setValue(float x, float y) {

@@ -4,6 +4,9 @@
 #include "Point.h"
 #include "Normal.h"
 
+class Point;
+class Normal;
+
 class LocalGeo {
 public:
 	Point pos;

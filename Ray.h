@@ -4,6 +4,9 @@
 #include "Point.h"
 #include "Vector.h"
 
+class Point;
+class Vector;
+
 class Ray {
 public:
 	Point pos;

@@ -1,9 +1,9 @@
 #include "Camera.h"
 #include <limits>
 
-void Camera::setValue(float _fromX, float _fromY, float _fromZ, 
-		      float _atX, float _atY, float _atZ, 
-		      float _upX, float _upY, float _upZ);
+void Camera::setValue(	float _fromX,	float _fromY,	float _fromZ, 
+						float _atX,		float _atY,		float _atZ, 
+						float _upX,		float _upY,		float _upZ	) {
 	fromX = _fromX;
 	fromY = _fromY;
 	fromZ = _fromZ;
@@ -17,7 +17,7 @@ void Camera::setValue(float _fromX, float _fromY, float _fromZ,
 }
 
 
-void Camera::generateRay(Sample& sample, Ray* ray);
+void Camera::generateRay(Sample& sample, Ray* ray) {
 	Ray tempRay;
 
 	Point origin;

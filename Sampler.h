@@ -7,7 +7,7 @@ class Sample;
 
 class Sampler {
 public:
-	float width, height, count;
+	float width, height, countX, countY;
 	void setValue(float x, float y);
 	bool getSample(Sample* sample);
 };

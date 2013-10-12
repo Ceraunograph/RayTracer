@@ -13,7 +13,6 @@ void Camera::setValue(	float _fromX,	float _fromY,	float _fromZ,
 	upX = _upX;
 	upY = _upY;
 	upZ = _upZ;
-	
 }
 
 

@@ -1,7 +1,18 @@
 #ifndef GEOMETRICPRIMITIVE_H
 #define GEOMETRICPRIMITIVE_H
 
-class GeometricPrimitive : public primitive {
+#include "Primitive.h"
+#include "Transformation.h"
+#include "Shape.h"
+#include "Material.h"
+#include "LocalGeo.h"
+
+class Transformation;
+class Shape;
+class Material;
+class LocalGeo;
+
+class GeometricPrimitive : public Primitive {
 public:
 	Transformation objToWorld, worldToObj;
 	Shape* shape;

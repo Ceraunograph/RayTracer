@@ -26,6 +26,7 @@
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
@@ -44,6 +45,7 @@
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Sampler.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Shape.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
@@ -89,6 +91,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Lionel Honda\Documents\Visual Studio 2012\eigen-eigen-ffa86ffb5570</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

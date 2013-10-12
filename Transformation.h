@@ -19,11 +19,11 @@ class Transformation {
 public:
 	Matrix m, minvt;
 	void setValue(Matrix m);
-	void transform(Point* v);
-	void transform(Vector* v);
-	void transform(Normal* v);
-	void transform(Ray* v);
-	void transform(LocalGeo* v);
+	Point operator * (Point p);
+	Vector operator * (Vector v);
+	Normal operator * (Normal n);
+	Ray operator * (Ray r);
+	LocalGeo operator * (LocalGeo g);
 };
 
 #endif

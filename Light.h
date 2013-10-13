@@ -12,9 +12,8 @@ class Color;
 class Light {
 
 public:
-	virtual void generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor);
 	Point source;
-	Vector dir;
+	Vecotr dir;
 	bool directional;
 	bool point;
 	Color color;

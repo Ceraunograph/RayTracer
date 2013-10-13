@@ -78,6 +78,9 @@
     <ClCompile Include="AggregatePrimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BRDF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sample.h">
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AggregatePrimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BRDF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

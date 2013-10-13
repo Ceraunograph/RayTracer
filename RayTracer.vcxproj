@@ -11,14 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AggregatePrimitive.cpp" />
+    <ClCompile Include="BRDF.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="GeometricPrimitive.cpp" />
     <ClCompile Include="Intersection.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LocalGeo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="RayTracer.cpp" />
+    <ClCompile Include="TMatrix.cpp" />
     <ClCompile Include="Normal.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Primitive.cpp" />
@@ -31,13 +35,17 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AggregatePrimitive.h" />
+    <ClInclude Include="BRDF.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="GeometricPrimitive.h" />
     <ClInclude Include="Intersection.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LocalGeo.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="RayTracer.h" />
+    <ClInclude Include="TMatrix.h" />
     <ClInclude Include="Normal.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Primitive.h" />

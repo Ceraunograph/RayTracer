@@ -14,8 +14,7 @@ bool GeometricPrimitive::intersect(Ray& ray, float* thit, Intersection* in) {
 	return false;
         in->primitive = this;
         in->localGeo = objToWorld * transformedLocal;
-        return true;   
-
+        return true;
 }
 
 bool GeometricPrimitive::intersectP(Ray& ray) {

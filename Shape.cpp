@@ -29,7 +29,7 @@ void Shape::setValue(float _x, float _y, float _z, float _raidus, Vertex _v1, Ve
 }
 
 
-bool intersectSphere(Ray& ray, float* thit, LocalGeo* local){
+bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 	// (P-C).(P-C) = r^2
 	// (P0 + tD - C).(P0 + tD - C) = r^2
 	// (d.d)t^2 + 2(P0-C).dt + (P0-C).(P0-C)-r^2 = 0
@@ -65,7 +65,7 @@ bool intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 
 }
 
-bool intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
+bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 
 	Vector edge1;
 	edge1.setValue(v1.x, v1.y, v1.z);
@@ -124,7 +124,7 @@ bool intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	return true;
 }
 
-bool intersect(Ray& ray, float* thit, LocalGeo* local){
+bool Shape::intersect(Ray& ray, float* thit, LocalGeo* local){
 	if (sphere == true){
 		return this.intersectSphere(ray, thit, local);
 	}else if (triangle == true){
@@ -134,7 +134,7 @@ bool intersect(Ray& ray, float* thit, LocalGeo* local){
 	}
 }
 
-bool intersectP(Ray& ray){
+bool Shape::intersectP(Ray& ray){
 	float *thit;
 	LocalGeo *local;
 	return this.intersect(ray, thit, local);

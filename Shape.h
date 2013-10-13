@@ -15,6 +15,7 @@ public:
 	bool sphere;
 	Vertex v1, v2, v3;
 	float x, y, z, radius;
+	Point center;
 	
 
 	void setValue(Point p, Vector v, float min, float max); 

@@ -1,6 +1,6 @@
 #include "AggregatePrimitive.h"
 
-void setValue(vector<Primitive*> _list){
+void AggregatePrimitive::setValue(std::list<Primitive*> _list){
 	primitiveList = _list;
 }
 
@@ -9,19 +9,21 @@ bool AggregatePrimitive::intersect(Ray& ray, float* thit, Intersection* in){
 	Intersection minIntersection;
 	float *hit;
 	Intersection *intersection;
-	for (int i = 0; i < primitiveList.size(); i++){
-		if (primitiveList[i]->intersect(ray, hit, intersection)){
-			if (hit < minHit){
-				minHit = &hit;
-				minIntersection = &intersection
+
+	for (std::list<Primitive*>::iterator it = primitiveList.begin(); it != primitiveList.end(); it++){
+		if ((*it)->intersect(ray, hit, intersection)){
+			if (*hit < minHit){
+				minHit = *hit;
+				minIntersection = *intersection;
 			}
 		}
 	}
+
 	if (minHit == std::numeric_limits<float>::max()){
 		return false;
 	}else{
 		thit = &minHit;
-		in = &minIntersection
+		in = &minIntersection;
 		return true;
 	}
 }
@@ -30,6 +32,6 @@ bool AggregatePrimitive::intersectP(Ray& ray){
 	Intersection* in;
 	return intersect(ray, thit, in);	
 }
-void AggregatePrimitve::getBRDF(LocalGeo& local, BRDF* brdf){
+void AggregatePrimitive::getBRDF(LocalGeo& local, BRDF* brdf){
 	exit(1); // this method should never be called
 }

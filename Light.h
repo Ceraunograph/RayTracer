@@ -10,8 +10,9 @@ class Ray;
 class Color;
 
 class Light {
+public:
 	Point source;
-	Vecotr dir;
+	Vector dir;
 	bool directional;
 	bool point;
 	Color color;

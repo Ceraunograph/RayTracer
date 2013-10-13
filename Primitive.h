@@ -12,6 +12,7 @@ class LocalGeo;
 class BRDF;
 
 class Primitive {
+public:
 	virtual bool intersect(Ray& ray, float* thit, Intersection* in);
 	virtual bool intersectP(Ray& ray);
     virtual void getBRDF(LocalGeo& local, BRDF* brdf);

@@ -25,7 +25,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="RayTracer.cpp" />
-    <ClCompile Include="TMatrix.cpp" />
     <ClCompile Include="Normal.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Primitive.cpp" />
@@ -49,7 +48,6 @@
     <ClInclude Include="LocalGeo.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="RayTracer.h" />
-    <ClInclude Include="TMatrix.h" />
     <ClInclude Include="Normal.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Primitive.h" />

@@ -13,14 +13,14 @@ bool Sampler::getSample(Sample* sample) {
 
 	if (countY < height) {
 		if (countX < width) {
-			tempX = (((countX + 0.5)/width)*2)-1;
-			tempY = (((countY + 0.5)/height)*2)-1;
+			tempX = countX;
+			tempY = countY;
 			countX++;
 			sample = &return_sample;
 			return true;
 		} else {
-			tempX = (((countX + 0.5)/width)*2)-1;
-			tempY = (((countY + 0.5)/height)*2)-1;
+			tempX = countX;
+			tempY = countY;
 			countX = 0;
 			countY++;
 			sample = &return_sample;

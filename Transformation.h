@@ -18,7 +18,7 @@ class LocalGeo;
 class Transformation {
 public:
 	TMatrix m, minvt;
-	void setValue(TMatrix m);
+	void setValue(TMatrix* m);
 	Point operator * (Point p);
 	Vector operator * (Vector v);
 	Normal operator * (Normal n);

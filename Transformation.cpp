@@ -1,7 +1,7 @@
 #include "Transformation.h"
 
-void Transformation::setValue(TMatrix _m) {
-	m = _m;
+void Transformation::setValue(TMatrix* _m) {
+	m = *_m;
 	minvt = m;
 	minvt.inverse();
 	minvt.transpose();
@@ -67,14 +67,14 @@ LocalGeo Transformation::operator*(LocalGeo g) {
 	nx = g.normal.x * minvt.mat(0,0) + g.normal.y * minvt.mat(0,1) + g.normal.z * minvt.mat(0,2);
 	ny = g.normal.x * minvt.mat(1,0) + g.normal.y * minvt.mat(1,1) + g.normal.z * minvt.mat(1,2);
 	nz = g.normal.x * minvt.mat(2,0) + g.normal.y * minvt.mat(2,1) + g.normal.z * minvt.mat(2,2);
-	new_normal.setValue(x,y,z);
+	new_normal.setValue(nx,ny,nz);
 
 	Point new_point;
 	float px, py, pz;
 	px = g.pos.x * m.mat(0,0) + g.pos.y * m.mat(0,1) + g.pos.z * m.mat(0,2);
 	py = g.pos.x * m.mat(1,0) + g.pos.y * m.mat(1,1) + g.pos.z * m.mat(1,2);
 	pz = g.pos.x * m.mat(2,0) + g.pos.y * m.mat(2,1) + g.pos.z * m.mat(2,2);
-	new_point.setValue(x,y,z);
+	new_point.setValue(px,py,pz);
 
 	new_localGeo.setValue(new_point, new_normal);
 	return new_localGeo;

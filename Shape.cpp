@@ -38,7 +38,7 @@ bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 
 	// set up equation
 	float A = ray.dir.dotProduct(ray.dir); // dot product for vector needed
-	float B = 2.0 * (temp1.dotProdcut(ray.dir));
+	float B = 2.0 * (temp1.dotProduct(ray.dir));
 	float C = temp1.dotProduct(ray.dir) - (radius * radius);
 
 	// solve quadratic equation
@@ -94,7 +94,7 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 
 	Vector rayOrigin;
 	rayOrigin.setValue(ray.pos.x, ray.pos.y, ray.pos.z);
-	float num = normal.dotProduct(rayOrigin) + ray.dir;
+	float num = normal.dotProduct(rayOrigin) + D;
 	float denom = normal.dotProduct(ray.dir);
 
 	if (denom == 0.0){   // the direction of the ray and the normal of the plane is perpendicular

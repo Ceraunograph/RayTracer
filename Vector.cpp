@@ -45,3 +45,17 @@ void Vector::normalize() {
 	y /= length;
 	z /= length;
 }
+
+float Vector::dotProduct(Vector v) {
+	return x*v.x + y*v.y + z*v.z;
+}
+
+Vector Vector::crossProduct(Vector v) {
+	Vector return_vector;
+	float vx, vy, vz;
+	vx = y*v.z - z*v.y;
+	vy = z*v.x - x*v.z;
+	vz = x*v.y - y*v.x;
+	return_vector.setValue(vx, vy, vz);
+	return return_vector;
+}

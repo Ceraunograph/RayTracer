@@ -1,7 +1,7 @@
 #include "Light.h"
+#include <limits>
 
-
-void setValue(Point _source, Vector _dir, bool _directional, bool _point, Color _color){
+void Light::setValue(Point _source, Vector _dir, bool _directional, bool _point, Color _color){
 	directional = _directional;
 	point = _point;
 	if (directional) {
@@ -11,7 +11,7 @@ void setValue(Point _source, Vector _dir, bool _directional, bool _point, Color 
 	}
 	color = _color;
 }
-void generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor){
+void Light::generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor){
 	Ray lightRay;
 	Color lightColor;
 	if (directional){

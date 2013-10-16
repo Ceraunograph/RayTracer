@@ -15,6 +15,8 @@ public:
 	void multiply(float s);
 	void divide(float s);
 	void normalize();
+	float dotProduct(Vector v);
+	Vector crossProduct(Vector v);
 };
 
 #endif

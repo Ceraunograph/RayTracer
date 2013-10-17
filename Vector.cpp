@@ -59,3 +59,7 @@ Vector Vector::crossProduct(Vector v) {
 	return_vector.setValue(vx, vy, vz);
 	return return_vector;
 }
+
+float Vector::magnitude() {
+	return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+}

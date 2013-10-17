@@ -21,7 +21,7 @@ public:
 	void setValue(AggregatePrimitive ap, int max_depth);
 	void trace(Ray& ray, int depth, Color* color);
 	Ray createReflectRay(LocalGeo local, Ray ray);
-	Color shading(LocalGeo local, BRDF brdf, Color color);
+	Color shading(LocalGeo local, BRDF brdf, Ray ray, Color color);
 };
 
 #endif

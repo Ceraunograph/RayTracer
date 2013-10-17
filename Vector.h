@@ -17,6 +17,7 @@ public:
 	void normalize();
 	float dotProduct(Vector v);
 	Vector crossProduct(Vector v);
+	float magnitude();
 };
 
 #endif

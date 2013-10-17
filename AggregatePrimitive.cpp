@@ -1,6 +1,6 @@
 #include "AggregatePrimitive.h"
 
-void AggregatePrimitive::setValue(std::vector<Primitive*>& _list){
+void AggregatePrimitive::setValue(std::vector<Primitive*> _list){
 	primitiveList = _list;
 }
 

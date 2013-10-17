@@ -5,6 +5,6 @@ void main(int argc, char *argv[]) {
 	Parser parser;
 	Scene scene;
 	parser.loadScene(argv[1]);
-	scene.setValue(&parser);
+	scene.setValue(parser);
 	scene.render();
 }

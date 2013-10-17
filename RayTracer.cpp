@@ -81,12 +81,10 @@ Ray RayTracer::createReflectRay(LocalGeo local, Ray ray) {
 
 Color RayTracer::shading(LocalGeo local, BRDF brdf, Ray ray, Color color) {
 	Color ret_color;
-
+	ret_color.setValue(0,0,0);
 	float diffuse;
 	Vector normal_vector;
 	normal_vector.setValue(local.normal.x, local.normal.y, local.normal.z);
-
-
 
 	return ret_color;
 }

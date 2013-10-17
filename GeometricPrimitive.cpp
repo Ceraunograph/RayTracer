@@ -9,12 +9,12 @@ void GeometricPrimitive::setValue(Transformation* _objToWorld, Transformation* _
 
 bool GeometricPrimitive::intersect(Ray& ray, float* thit, Intersection* in) {
 	Ray transformedRay = worldToObj * ray;
-        LocalGeo transformedLocal;                                 
-        if (!shape->intersect(transformedRay, thit, &transformedLocal))  
-	return false;
-        in->primitive = this;
-        in->localGeo = objToWorld * transformedLocal;
-        return true;
+	LocalGeo transformedLocal;                                 
+	if (!shape->intersect(transformedRay, thit, &transformedLocal))  
+		return false;
+	in->primitive = this;
+	in->localGeo = objToWorld * transformedLocal;
+	return true;
 }
 
 bool GeometricPrimitive::intersectP(Ray& ray) {

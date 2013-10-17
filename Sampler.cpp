@@ -15,12 +15,14 @@ bool Sampler::getSample(Sample* sample) {
 		if (countX < width) {
 			tempX = countX;
 			tempY = countY;
+			return_sample.setValue(tempX, tempY);
 			countX++;
 			sample = &return_sample;
 			return true;
 		} else {
 			tempX = countX;
 			tempY = countY;
+			return_sample.setValue(tempX, tempY);
 			countX = 0;
 			countY++;
 			sample = &return_sample;

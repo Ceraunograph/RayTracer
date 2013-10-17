@@ -14,7 +14,6 @@ class Color;
 
 class Scene {
 public:
-	//Parser parser;
 	Sampler sampler;
 	Sample sample;
 	Camera camera;
@@ -23,7 +22,7 @@ public:
 	Color color;
 	Film film;
 	void render();
-	void setValue(Parser* p);
+	void setValue(Parser p);
 };
 
 #endif

@@ -21,6 +21,7 @@
     <ClCompile Include="GeometricPrimitive.cpp" />
     <ClCompile Include="Intersection.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="LocalGeo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="LocalGeo.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="RayTracer.h" />
     <ClInclude Include="Normal.h" />
     <ClInclude Include="Point.h" />

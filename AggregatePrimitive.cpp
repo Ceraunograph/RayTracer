@@ -1,6 +1,6 @@
 #include "AggregatePrimitive.h"
 
-void AggregatePrimitive::setValue(std::list<Primitive*> _list){
+void AggregatePrimitive::setValue(std::vector<Primitive*> _list){
 	primitiveList = _list;
 }
 
@@ -10,7 +10,7 @@ bool AggregatePrimitive::intersect(Ray& ray, float* thit, Intersection* in){
 	float *hit;
 	Intersection *intersection;
 
-	for (std::list<Primitive*>::iterator it = primitiveList.begin(); it != primitiveList.end(); it++){
+	for (std::vector<Primitive*>::iterator it = primitiveList.begin(); it != primitiveList.end(); it++){
 		if ((*it)->intersect(ray, hit, intersection)){
 			if (*hit < minHit){
 				minHit = *hit;

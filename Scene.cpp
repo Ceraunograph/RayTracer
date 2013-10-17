@@ -9,8 +9,13 @@ void Scene::render() {
 	film.writeImage();
 }
 
+void Scene::setValue(Parser* p) {
+	sampler.setValue(p->width, p->height);
+	camera.setValue(p->lookFromX, p->lookFromY, p->lookFromZ, p->lookAtX, p->lookAtY, p->lookAtZ, p->lookUpX, p->lookUpY, p->lookUpZ, p->fov, p->width, p->height);
 
-//void main(int argc, char *argv[]) {
-//	parser.loadscene(argv[1]);
-//	initialize();
-//}
+	AggregatePrimitive ap;
+	ap.setValue(p->primitives);
+
+	raytracer.setValue(ap, p->maxDepth);
+	film.setValue(p->width, p->height);
+}

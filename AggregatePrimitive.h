@@ -8,15 +8,15 @@
 #include "LocalGeo.h"
 #include "BRDF.h"
 
-#include <list>
+#include <vector>
 
 class Vector;
 
 class AggregatePrimitive : public Primitive {
 public:
-	std::list<Primitive*> primitiveList;
+	std::vector<Primitive*> primitiveList;
 
-	void setValue(std::list<Primitive*> _list);
+	void setValue(std::vector<Primitive*> _list);
 	bool intersect(Ray& ray, float* thit, Intersection* in);
 	bool intersectP(Ray& ray);
 	void getBRDF(LocalGeo& local, BRDF* brdf);

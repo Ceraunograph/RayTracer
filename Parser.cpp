@@ -9,7 +9,12 @@ using namespace std;
 
 
 void Parser::loadScene(std::string file) {
-
+	maxDepth = 0;
+	shininess = 1.0;
+	kr.setValue(0.0, 0.0, 0.0);
+	ka.setValue(0.0, 0.0, 0.0);
+	ks.setValue(0.0, 0.0, 0.0);
+	kd.setValue(0.0, 0.0, 0.0);
 	//store variables and set stuff at the end
 
 
@@ -319,20 +324,20 @@ void Parser::loadScene(std::string file) {
 				BRDF brdf;
 				brdf.setValue(kd, ks, ka, kr);
 
-				Material* material;
-				material->setValue(brdf);
+				Material material;
+				material.setValue(brdf);
 
 				Matrix4f matrix;
 				matrix = matrixStack;
 				Matrix4f inverse;
-				inverse = matrix.inverse();	
+				inverse = matrix.inverse();
 
 				Transformation tMatrix, tInverseMatrix;
 				tMatrix.setValue(&matrix);
 				tInverseMatrix.setValue(&inverse);
 
 				GeometricPrimitive triangle;
-				triangle.setValue(&tInverseMatrix, &tMatrix, &shape, material);
+				triangle.setValue(&tInverseMatrix, &tMatrix, &shape, &material);
 
 				primitives.push_back(&triangle);
 
@@ -550,6 +555,7 @@ void Parser::loadScene(std::string file) {
 				Light light;
 
 				Point point;
+				point.setValue(1,1,1);
 
 				light.setValue(point, dir, true, false, color);
 				lights.push_back(light);
@@ -570,6 +576,7 @@ void Parser::loadScene(std::string file) {
 				color.setValue(atof(splitline[4].c_str()), atof(splitline[5].c_str()), atof(splitline[6].c_str()));
 				Light light;
 				Vector vect;
+				vect.setValue(1,1,1);
 
 				light.setValue(pos, vect, false, true, color);
 				lights.push_back(light);

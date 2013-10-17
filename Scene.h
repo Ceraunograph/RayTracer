@@ -8,7 +8,7 @@
 #include "Color.h"
 #include "Film.h"
 #include "RayTracer.h"
-//#include "Parser.h"
+#include "Parser.h"
 
 class Color;
 
@@ -23,7 +23,7 @@ public:
 	Color color;
 	Film film;
 	void render();
-	void initialize();
+	void setValue(Parser* p);
 };
 
 #endif

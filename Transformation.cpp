@@ -3,8 +3,8 @@
 void Transformation::setValue(Matrix4f* _m) {
 	m = *_m;
 	minvt = m;
-	minvt = minvt.inverse();
-	minvt = minvt.transpose();
+	minvt = minvt.inverse().eval();
+	minvt.transposeInPlace();
 }
 
 Point Transformation::operator*(Point p) {

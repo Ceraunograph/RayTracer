@@ -1,5 +1,6 @@
 #include "Film.h"
 #include <iostream>
+#include <cmath>
 
 void Film::setValue(int _width, int _height) {
 	width = _width;
@@ -8,7 +9,17 @@ void Film::setValue(int _width, int _height) {
 }
 
 void Film::commit(Sample& sample, Color& color) {
-	int pixel_color[] = { color.r*255, color.g*255, color.b*255 };
+
+	float largest_color;
+	if (color.r > color.g && color.r > color.b) {
+		largest_color = color.r;
+	} else if (color.g > color.r && color.g > color.b) {
+		largest_color = color.g;
+	} else {
+		largest_color = color.b;
+	}
+
+	int pixel_color[] = { (color.r/largest_color)*255, (color.g/largest_color)*255, (color.b/largest_color)*255 };
 	output_image.draw_point(sample.x, sample.y, pixel_color);
 	/*
 	int total_pixels = width * height;

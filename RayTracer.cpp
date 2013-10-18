@@ -1,7 +1,9 @@
 #include "RayTracer.h"
+#include <iostream>
 
 void RayTracer::trace(Ray& ray, int depth, Color* color) {
 
+	color->setValue(0.0, 0.0, 0.0);
 
 	if (depth > max_depth) {
 		color->setValue(0.0, 0.0, 0.0);
@@ -9,7 +11,6 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 
 	if (!primitive.intersect(ray, &thit, &in)) {
 		// No intersection
-
 		color->setValue(0.0, 0.0, 0.0);
 	} else {
 		//printf("INTERSECTION");
@@ -30,14 +31,11 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 
 				Color tempColor;
 				tempColor = shading(in.localGeo, brdf, lray, ray, lcolor, brdf.shine);
-				color->r += tempColor.r;
-				color->g += tempColor.g;
-				color->b += tempColor.b;
+				color->add(tempColor);
 			}
 		}
-		color->r += brdf.ka.r;
-		color->g += brdf.ka.g;
-		color->b += brdf.ka.b;
+		color->add(brdf.ka);
+		//std::cout << "hello";
 		/*
 		// Handle mirror reflection
 		if (brdf.kr.r + brdf.kr.g + brdf.kr.b > 0) {

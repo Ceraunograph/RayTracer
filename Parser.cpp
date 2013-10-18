@@ -15,12 +15,6 @@ void Parser::loadScene(std::string file) {
 	ka.setValue(0.0, 0.0, 0.0);
 	ks.setValue(0.0, 0.0, 0.0);
 	kd.setValue(0.0, 0.0, 0.0);
-	//store variables and set stuff at the end
-
-
-	// Film Input
-	// Scene Input
-	// Object Primitives
 
 	std::string fname = "output.bmp";
 
@@ -257,7 +251,7 @@ void Parser::loadScene(std::string file) {
 				GeometricPrimitive sphere;
 				sphere.setValue(&tInverseMatrix, &tMatrix, shape, material);
 
-				primitives.push_back(&sphere);
+				primitives.push_back(sphere);
 
 			}
 			//maxverts number
@@ -327,19 +321,17 @@ void Parser::loadScene(std::string file) {
 				Material material;
 				material.setValue(brdf);
 
-				Matrix4f matrix;
-				matrix = matrixStack;
-				Matrix4f inverse;
-				inverse = matrix.inverse();
+				Matrix4f inverse = matrixStack.inverse();
 
 				Transformation tMatrix, tInverseMatrix;
-				tMatrix.setValue(&matrix);
+
+				tMatrix.setValue(&matrixStack);
 				tInverseMatrix.setValue(&inverse);
 
 				GeometricPrimitive triangle;
 				triangle.setValue(&tInverseMatrix, &tMatrix, &shape, &material);
 
-				primitives.push_back(&triangle);
+				primitives.push_back(triangle);
 
 			}
 			//trinormal v1 v2 v3
@@ -378,7 +370,7 @@ void Parser::loadScene(std::string file) {
 				GeometricPrimitive triangle;
 				triangle.setValue(&tInverseMatrix, &tMatrix, &shape, material);
 
-				primitives.push_back(&triangle);
+				primitives.push_back(triangle);
 			}
 
 			//translate x y z

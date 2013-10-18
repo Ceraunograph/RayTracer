@@ -8,24 +8,21 @@ void Sampler::setValue(float x, float y) {
 }
 
 bool Sampler::getSample(Sample* sample) {
-	Sample return_sample;
 	float tempX, tempY;
 
 	if (countY < height) {
 		if (countX < width) {
 			tempX = countX;
 			tempY = countY;
-			return_sample.setValue(tempX, tempY);
 			countX++;
-			sample = &return_sample;
+			sample->setValue(tempX, tempY);
 			return true;
 		} else {
 			tempX = countX;
 			tempY = countY;
-			return_sample.setValue(tempX, tempY);
 			countX = 0;
 			countY++;
-			sample = &return_sample;
+			sample->setValue(tempX, tempY);
 			return true;
 		}
 	} else {

@@ -33,7 +33,6 @@ bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 	// (d.d)t^2 + 2(P0-C).dt + (P0-C).(P0-C)-r^2 = 0
 	// At^2 + Bt + C = 0
 	Vector temp1;
-	float root;
 	temp1.createFromPoints(ray.pos, center);
 
 	// set up equation
@@ -46,22 +45,21 @@ bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 	if (D < 0.0) {
 		return false;
 	} else {
-		root = (sqrt(D) - B) / (A * 2.0);
-		if (root < ray.t_min || root > ray.t_max) {
+		*thit = (sqrt(D) - B) / (A * 2.0);
+		if (*thit < ray.t_min || *thit > ray.t_max) {
 			return false;
 		} else {
-			thit = &root;
+
 		}
 	}
 
 	// get point and normal for local geo
 	Point point;
-	point.setValue(ray.pos.x + ray.dir.x * root, ray.pos.y + ray.dir.y * root, ray.pos.z + ray.dir.z * root);
+	point.setValue(ray.pos.x + ray.dir.x * *thit, ray.pos.y + ray.dir.y * *thit, ray.pos.z + ray.dir.z * *thit);
 	Normal normal;
 	normal.setValue(point.x - center.x, point.y - center.y, center.z - center.z);
-	LocalGeo geo;
-	geo.setValue(point, normal);
-	local = &geo;
+
+	local->setValue(point, normal);
 	
 	return true;
 
@@ -101,14 +99,14 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 		return false;
 	}
 
-	float hit = num / denom;
+	*thit = num / denom;
 
-	if (hit < ray.t_min || hit > ray.t_max){  // hit time outside of boundary
+	if (*thit < ray.t_min || *thit > ray.t_max){  // hit time outside of boundary
 		return false;
 	}
 
 	Point hitPoint;
-	hitPoint.setValue(ray.pos.x + ray.dir.x * hit, ray.pos.y + ray.dir.y * hit, ray.pos.z + ray.dir.z * hit);
+	hitPoint.setValue(ray.pos.x + ray.dir.x * *thit, ray.pos.y + ray.dir.y * *thit, ray.pos.z + ray.dir.z * *thit);
 	Vector vertexToPoint;
 
 	vertexToPoint.createFromPoints(hitPoint, v1);
@@ -122,12 +120,10 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 		return false;	
 	}
 
-	thit = &hit;
-	LocalGeo geo;
 	Normal normalizedNormal;
 	normalizedNormal.setValue(normal.x, normal.y, normal.z);
-	geo.setValue(hitPoint, normalizedNormal);
-	local = &geo;
+
+	local->setValue(hitPoint, normalizedNormal);
 
 	return true;
 }

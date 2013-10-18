@@ -8,6 +8,7 @@
 #include "LocalGeo.h"
 #include <Eigen/LU>
 #include <Eigen/Dense>
+#include <Eigen/StdVector>
 
 using namespace Eigen;
 

@@ -23,8 +23,6 @@ void Camera::setValue(	float _fromX,	float _fromY,	float _fromZ,
 
 
 void Camera::generateRay(Sample& sample, Ray* ray) {
-	Ray tempRay;
-
 	Point origin;
 	origin.setValue(0.0, 0.0, 0.0); // Let Pos of Camera to be the origin  (Camera Coordinate)
 
@@ -35,9 +33,8 @@ void Camera::generateRay(Sample& sample, Ray* ray) {
 	samplePos.setValue(newx,newy,-1.0);
 
 	Vector direction;
-	direction.createFromPoints(samplePos, origin);
+	direction.createFromPoints(origin, samplePos);
 
-	tempRay.setValue(origin, direction, 0.0, std::numeric_limits<float>::max());
-	ray = &tempRay;
+	ray->setValue(origin, direction, 0.0, std::numeric_limits<float>::max());
 	
 }

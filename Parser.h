@@ -9,16 +9,18 @@
 #include "Material.h"
 #include "BRDF.h"
 #include "GeometricPrimitive.h"
+#include "Transformation.h"
 
 #include <vector>
 #include <Eigen/LU>
 #include <Eigen/Dense>
+#include <Eigen/StdVector>
 
 using namespace Eigen;
 
 class Parser {
 public:
-	std::vector<Primitive*> primitives;
+	std::vector<GeometricPrimitive> primitives;
 	std::vector<Point> vertices;
 	std::vector<Point> verticesNormal;
 	std::vector<Light> lights;

@@ -22,7 +22,7 @@ public:
 	Color color;
 	Film film;
 	void render();
-	void setValue(Parser p);
+	void setValue(Parser* p);
 };
 
 #endif

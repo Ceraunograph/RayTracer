@@ -15,25 +15,19 @@ void Light::generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor){
 	Ray lightRay;
 	Color lightColor;
 	if (directional){
-		lightRay.pos.setValue(local.pos.x, local.pos.y, local.pos.z);
-		lightRay.dir.setValue(dir.x, dir.y, dir.z);
-                lightRay.t_min = 0.0;
-		lightRay.t_max = std::numeric_limits<float>::max();
+		lray->pos.setValue(local.pos.x, local.pos.y, local.pos.z);
+		lray->dir.setValue(dir.x, dir.y, dir.z);
+                lray->t_min = 0.0;
+		lray->t_max = std::numeric_limits<float>::max();
 
-		lightColor.setValue(color.r, color.g, color.b);
-
-		lcolor = &lightColor;
-		lray = &lightRay;
+		lcolor->setValue(color.r, color.g, color.b);
 	}else if (point) {
-		lightRay.pos.setValue(local.pos.x, local.pos.y, local.pos.z);
-		lightRay.dir.createFromPoints(lightRay.pos, source);
-		lightRay.t_min = 0.0;
-		lightRay.t_max = std::numeric_limits<float>::max();
+		lray->pos.setValue(local.pos.x, local.pos.y, local.pos.z);
+		lray->dir.createFromPoints(lray->pos, source);
+		lray->t_min = 0.0;
+		lray->t_max = std::numeric_limits<float>::max();
 
-		lightColor.setValue(color.r, color.g, color.b);
-
-		lcolor = &lightColor;
-		lray = &lightRay;
+		lcolor->setValue(color.r, color.g, color.b);
 	}else{
 		// throw an exception maybe?
 	}

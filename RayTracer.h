@@ -18,10 +18,10 @@ public:
 	Ray reflectRay;
 	std::vector<Light> lights;
 
-	void setValue(AggregatePrimitive ap, int max_depth);
+	void setValue(AggregatePrimitive ap, int max_depth, std::vector<Light> lights);
 	void trace(Ray& ray, int depth, Color* color);
 	Ray createReflectRay(LocalGeo local, Ray ray);
-	Color shading(LocalGeo local, BRDF brdf, Ray ray, Color color);
+	Color shading(LocalGeo local, BRDF brdf, Ray lray, Ray vray, Color lcolor, float coeff);
 };
 
 #endif

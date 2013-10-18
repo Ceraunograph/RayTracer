@@ -20,7 +20,8 @@ class LocalGeo;
 
 class Transformation {
 public:
-	Matrix4f m, minvt;
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+	Eigen::Matrix4f m, minvt;
 	void setValue(Matrix4f& m);
 	Point operator * (Point p);
 	Vector operator * (Vector v);

@@ -9,7 +9,6 @@ using namespace std;
 
 
 void Parser::loadScene(std::string file) {
-	Material material;
 
 	maxDepth = 0;
 	shininess = 1.0;
@@ -19,20 +18,20 @@ void Parser::loadScene(std::string file) {
 	kd.setValue(0.0, 0.0, 0.0);
 
 	matrixStack(0,0) = 1;
-	matrixStack(0,1) = 1;
-	matrixStack(0,2) = 1;
-	matrixStack(0,3) = 1;
-	matrixStack(1,0) = 1;
+	matrixStack(0,1) = 0;
+	matrixStack(0,2) = 0;
+	matrixStack(0,3) = 0;
+	matrixStack(1,0) = 0;
 	matrixStack(1,1) = 1;
-	matrixStack(1,2) = 1;
-	matrixStack(1,3) = 1;
-	matrixStack(2,0) = 1;
-	matrixStack(2,1) = 1;
+	matrixStack(1,2) = 0;
+	matrixStack(1,3) = 0;
+	matrixStack(2,0) = 0;
+	matrixStack(2,1) = 0;
 	matrixStack(2,2) = 1;
-	matrixStack(2,3) = 1;
-	matrixStack(3,0) = 1;
-	matrixStack(3,1) = 1;
-	matrixStack(3,2) = 1;
+	matrixStack(2,3) = 0;
+	matrixStack(3,0) = 0;
+	matrixStack(3,1) = 0;
+	matrixStack(3,2) = 0;
 	matrixStack(3,3) = 1;
 
 	std::string fname = "output.bmp";
@@ -232,8 +231,6 @@ void Parser::loadScene(std::string file) {
 
 				toCamera = rotate4 * rotate3 * rotate2 * rotate1 * trans;
 				toCameraInverse = toCamera.inverse();
-
-
 			}
 
 			//sphere x y z radius
@@ -249,25 +246,28 @@ void Parser::loadScene(std::string file) {
 				//   Store current top of matrix stack
 
 				Point point;
-				Shape shape;
-				shape.setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()), atof(splitline[4].c_str()), point, point, point, 0.0);
 
-				BRDF brdf;
-				brdf.setValue(kd, ks, ka, kr);
+				Shape* shape = new Shape;
+				shape->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()), atof(splitline[4].c_str()), point, point, point, 0.0);
 
-				material.setValue(brdf);
+				BRDF* brdf = new BRDF;
+				brdf->setValue(kd, ks, ka, kr, shininess);
 
-				Matrix4f matrix = matrixStack;
-				Matrix4f inverse = matrix.inverse();	
+				Material* material = new Material;
+				material->setValue(*brdf);
 
-				Transformation tMatrix, tInverseMatrix;
-				tMatrix.setValue(matrix);
-				tInverseMatrix.setValue(inverse);
+				Matrix4f inverse = matrixStack.inverse();
 
-				GeometricPrimitive sphere;
-				sphere.setValue(tInverseMatrix, tMatrix, &shape, &material);
+				Transformation* tMatrix = new Transformation;
+				Transformation* tInverseMatrix = new Transformation;
 
-				primitives.push_back(sphere);
+				tMatrix->setValue(matrixStack);
+				tInverseMatrix->setValue(inverse);
+
+				GeometricPrimitive* sphere = new GeometricPrimitive;
+				sphere->setValue(*tInverseMatrix, *tMatrix, shape, material);
+
+				primitives.push_back(*sphere);
 
 			}
 			//maxverts number
@@ -292,9 +292,9 @@ void Parser::loadScene(std::string file) {
 				// y: atof(splitline[2].c_str()),
 				// z: atof(splitline[3].c_str()));
 				// Create a new vertex with these 3 values, store in some array
-				Point p;
-				p.setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
-				vertices.push_back(p);
+				Point* p = new Point;
+				p->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
+				vertices.push_back(*p);
 			}
 			//vertexnormal x y z nx ny nz
 			//  Similar to the above, but deﬁne a surface normal with each vertex.
@@ -309,9 +309,9 @@ void Parser::loadScene(std::string file) {
 				// nz: atof(splitline[6].c_str()));
 				// Create a new vertex+normal with these 6 values, store in some array
 
-				Point p;
-				p.setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
-				verticesNormal.push_back(p);
+				Point* p = new Point;
+				p->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
+				verticesNormal.push_back(*p);
 
 			}
 			//tri v1 v2 v3
@@ -327,26 +327,27 @@ void Parser::loadScene(std::string file) {
 				//   Store 3 integers to index into array
 				//   Store current property values
 				//   Store current top of matrix stack
-				Shape shape;
-				shape.setValue(0, 0, 0, 0, vertices[atof(splitline[1].c_str())], vertices[atof(splitline[2].c_str())], vertices[atof(splitline[3].c_str())], 1.0);
+				Shape* shape = new Shape;
+				shape->setValue(0, 0, 0, 0, vertices[atof(splitline[1].c_str())], vertices[atof(splitline[2].c_str())], vertices[atof(splitline[3].c_str())], 1.0);
 
-				BRDF brdf;
-				brdf.setValue(kd, ks, ka, kr);
+				BRDF* brdf = new BRDF;
+				brdf->setValue(kd, ks, ka, kr, shininess);
 
-				material.setValue(brdf);
+				Material* material = new Material;
+				material->setValue(*brdf);
 
 				Matrix4f inverse = matrixStack.inverse();
 
-				Transformation tMatrix, tInverseMatrix;
+				Transformation* tMatrix = new Transformation;
+				Transformation* tInverseMatrix = new Transformation;
 
-				tMatrix.setValue(matrixStack);
-				tInverseMatrix.setValue(inverse);
+				tMatrix->setValue(matrixStack);
+				tInverseMatrix->setValue(inverse);
 
-				GeometricPrimitive triangle;
-				triangle.setValue(tInverseMatrix, tMatrix, &shape, &material);
+				GeometricPrimitive* triangle = new GeometricPrimitive;
+				triangle->setValue(*tInverseMatrix, *tMatrix, shape, material);
 
-				primitives.push_back(triangle);
-
+				primitives.push_back(*triangle);
 			}
 			//trinormal v1 v2 v3
 			//  Same as above but for vertices speciﬁed with normals.
@@ -362,27 +363,27 @@ void Parser::loadScene(std::string file) {
 				//   Store 3 integers to index into array
 				//   Store current property values
 				//   Store current top of matrix stack
-				Shape shape;
-				shape.setValue(NULL, NULL, NULL, NULL, verticesNormal[atof(splitline[1].c_str())], verticesNormal[atof(splitline[2].c_str())], verticesNormal[atof(splitline[3].c_str())], 1.0);
+				Shape* shape = new Shape;
+				shape->setValue(NULL, NULL, NULL, NULL, verticesNormal[atof(splitline[1].c_str())], verticesNormal[atof(splitline[2].c_str())], verticesNormal[atof(splitline[3].c_str())], 1.0);
 
-				BRDF brdf;
-				brdf.setValue(kd, ks, ka, kr);
+				BRDF* brdf = new BRDF;
+				brdf->setValue(kd, ks, ka, kr, shininess);
 
-				material.setValue(brdf);
+				Material* material = new Material;
+				material->setValue(*brdf);
 
-				Matrix4f matrix;
-				matrix = matrixStack;
-				Matrix4f inverse;
-				inverse = matrix.inverse();	
+				Matrix4f inverse = matrixStack.inverse();
 
-				Transformation tMatrix, tInverseMatrix;
-				tMatrix.setValue(matrix);
-				tInverseMatrix.setValue(inverse);
+				Transformation* tMatrix = new Transformation;
+				Transformation* tInverseMatrix = new Transformation;
 
-				GeometricPrimitive triangle;
-				triangle.setValue(tInverseMatrix, tMatrix, &shape, &material);
+				tMatrix->setValue(matrixStack);
+				tInverseMatrix->setValue(inverse);
 
-				primitives.push_back(triangle);
+				GeometricPrimitive* triangle = new GeometricPrimitive;
+				triangle->setValue(*tInverseMatrix, *tMatrix, shape, material);
+
+				primitives.push_back(*triangle);
 			}
 
 			//translate x y z
@@ -441,7 +442,7 @@ void Parser::loadScene(std::string file) {
 					rotate(3,1) = 0.0;
 					rotate(3,2) = 0.0;
 					rotate(3,3) = 1.0;
-				}else if (y == 1.0){
+				} else if (y == 1.0) {
 					rotate(0,0) = cos(angle);
 					rotate(0,1) = 0.0;
 					rotate(0,2) = sin(angle);
@@ -458,7 +459,7 @@ void Parser::loadScene(std::string file) {
 					rotate(3,1) = 0.0;
 					rotate(3,2) = 0.0;
 					rotate(3,3) = 1.0;
-				}else if (z == 1.0){
+				} else if (z == 1.0) {
 					rotate(0,0) = cos(angle);
 					rotate(0,1) = -sin(angle);
 					rotate(0,2) = 0.0;
@@ -475,7 +476,7 @@ void Parser::loadScene(std::string file) {
 					rotate(3,1) = 0.0;
 					rotate(3,2) = 0.0;
 					rotate(3,3) = 1.0;
-				}else{
+				} else {
 				}
 				matrixStack = rotate * matrixStack;
 			}
@@ -525,21 +526,27 @@ void Parser::loadScene(std::string file) {
 			else if(!splitline[0].compare("popTransform")) {
 				//mst.pop();
 				matrixStack(0,0) = 1;
-				matrixStack(0,1) = 1;
-				matrixStack(0,2) = 1;
-				matrixStack(0,3) = 1;
-				matrixStack(1,0) = 1;
+				matrixStack(0,1) = 0;
+				matrixStack(0,2) = 0;
+				matrixStack(0,3) = 0;
+				matrixStack(1,0) = 0;
 				matrixStack(1,1) = 1;
-				matrixStack(1,2) = 1;
-				matrixStack(1,3) = 1;
-				matrixStack(2,0) = 1;
-				matrixStack(2,1) = 1;
+				matrixStack(1,2) = 0;
+				matrixStack(1,3) = 0;
+				matrixStack(2,0) = 0;
+				matrixStack(2,1) = 0;
 				matrixStack(2,2) = 1;
-				matrixStack(2,3) = 1;
-				matrixStack(3,0) = 1;
-				matrixStack(3,1) = 1;
-				matrixStack(3,2) = 1;
+				matrixStack(2,3) = 0;
+				matrixStack(3,0) = 0;
+				matrixStack(3,1) = 0;
+				matrixStack(3,2) = 0;
 				matrixStack(3,3) = 1;
+
+				//ka.setValue(0, 0, 0);
+				//kd.setValue(0, 0, 0);
+				//kr.setValue(0, 0, 0);
+				//ks.setValue(0, 0, 0);
+				//shininess = 1;
 			}
 
 			//directional x y z r g b
@@ -556,13 +563,13 @@ void Parser::loadScene(std::string file) {
 				dir.setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
 				Color color;
 				color.setValue(atof(splitline[4].c_str()), atof(splitline[5].c_str()), atof(splitline[6].c_str()));
-				Light light;
+				Light* light = new Light;
 
 				Point point;
 				point.setValue(1,1,1);
 
-				light.setValue(point, dir, true, false, color);
-				lights.push_back(light);
+				light->setValue(point, dir, true, false, color);
+				lights.push_back(*light);
 			}
 			//point x y z r g b
 			//  The location of a point source and the color, as in OpenGL.
@@ -578,12 +585,12 @@ void Parser::loadScene(std::string file) {
 				pos.setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
 				Color color;
 				color.setValue(atof(splitline[4].c_str()), atof(splitline[5].c_str()), atof(splitline[6].c_str()));
-				Light light;
+				Light* light = new Light;
 				Vector vect;
 				vect.setValue(1,1,1);
 
-				light.setValue(pos, vect, false, true, color);
-				lights.push_back(light);
+				light->setValue(pos, vect, false, true, color);
+				lights.push_back(*light);
 
 			}
 			//attenuation const linear quadratic
@@ -636,9 +643,7 @@ void Parser::loadScene(std::string file) {
 				// g: atof(splitline[2].c_str())
 				// b: atof(splitline[3].c_str())
 				// Update current properties
-
 				kr.setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
-
 			} else {
 				std::cerr << "Unknown command: " << splitline[0] << std::endl;
 			}

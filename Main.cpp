@@ -69,6 +69,7 @@ int main( int argc, const char* argv[] )
 	Scene scene;
 	parser.loadScene(argv[1]);
 	scene.setValue(&parser);
+	scene.render();
 	return 0;
 }
 

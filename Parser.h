@@ -20,6 +20,7 @@ using namespace Eigen;
 
 class Parser {
 public:
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	std::vector<GeometricPrimitive, Eigen::aligned_allocator<GeometricPrimitive>> primitives;
 	std::vector<Point> vertices;
 	std::vector<Point> verticesNormal;

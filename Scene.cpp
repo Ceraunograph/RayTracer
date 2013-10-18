@@ -16,6 +16,6 @@ void Scene::setValue(Parser* p) {
 
 	ap.setValue(p->primitives);
 
-	raytracer.setValue(ap, p->maxDepth);
+	raytracer.setValue(ap, p->maxDepth, p->lights);
 	film.setValue(p->width, p->height);
 }

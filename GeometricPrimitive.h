@@ -14,6 +14,7 @@ class LocalGeo;
 
 class GeometricPrimitive : public Primitive {
 public:
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	Transformation objToWorld, worldToObj;
 	Shape* shape;
 	Material* mat;

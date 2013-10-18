@@ -99,14 +99,14 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	float denom = normal.dotProduct(ray.dir);
 
 	if (denom == 0.0){   // the direction of the ray and the normal of the plane is perpendicular
-		cout << "perpendicular \n";
+		//cout << "perpendicular \n";
 		return false;
 	}
 
 	*thit = - (num / denom);
 	if (*thit < ray.t_min || *thit > ray.t_max){  // hit time outside of boundary
 		
-		cout << "outside boundary \n";
+		//cout << "outside boundary \n";
 		return false;
 	}
 
@@ -123,10 +123,10 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	vertexToPoint.createFromPoints(v3, hitPoint); 
 	float leftOfEdge3 = (edge13.crossProduct(edge23)).dotProduct(edge13.crossProduct(vertexToPoint));
 	
-	cout << leftOfEdge1 << "and" << leftOfEdge2 << "and" << leftOfEdge3;
+	//cout << leftOfEdge1 << "and" << leftOfEdge2 << "and" << leftOfEdge3;
 	 
 	if (leftOfEdge1 < 0.0 || leftOfEdge2 < 0.0 || leftOfEdge3 < 0.0){ // hit point not inside the triangle 
-		cout << "not inside the trianlge \n";
+		//cout << "not inside the trianlge \n";
 		return false;	
 	}   
 

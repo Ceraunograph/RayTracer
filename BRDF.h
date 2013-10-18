@@ -6,7 +6,8 @@
 class BRDF {
 public:
 	Color kd, ks, ka, kr;
-	void setValue(Color kd, Color ks, Color ka, Color kr);
+	float shine;
+	void setValue(Color kd, Color ks, Color ka, Color kr, float shine);
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "Transformation.h"
 
-void Transformation::setValue(Matrix4f* _m) {
-	m = *_m;
+void Transformation::setValue(Matrix4f& _m) {
+	m = _m;
 	minvt = m;
 	minvt = minvt.inverse().eval();
 	minvt.transposeInPlace();

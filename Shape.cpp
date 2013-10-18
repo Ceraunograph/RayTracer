@@ -1,10 +1,10 @@
 #include "Shape.h"
-#include <math.h> 
+#include <cmath> 
 #include <iostream>
 using namespace std;
 
 void Shape::setValue(float _x, float _y, float _z, float _radius, Point _v1, Point _v2, Point _v3, float shape) {
-	if (shape == 0){
+	if (shape == 0) {
 		sphere = true;
 		triangle = false;
 
@@ -15,7 +15,7 @@ void Shape::setValue(float _x, float _y, float _z, float _radius, Point _v1, Poi
 
 		center.setValue(x, y, z);
 
-	}else if (shape == 1){
+	} else if (shape == 1) {
 		sphere = false;
 		triangle = true;
 		
@@ -24,7 +24,7 @@ void Shape::setValue(float _x, float _y, float _z, float _radius, Point _v1, Poi
 		v3 = _v3;  
 
 	}else{
-		// throw and exception
+		// throw an exception
 	}
 }
 

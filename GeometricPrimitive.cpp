@@ -1,8 +1,8 @@
 #include "GeometricPrimitive.h"
 
-void GeometricPrimitive::setValue(Transformation* _objToWorld, Transformation* _worldToObj, Shape* _shape, Material* _mat){
-	objToWorld = *_objToWorld;	
-	worldToObj = *_worldToObj;
+void GeometricPrimitive::setValue(Transformation& _objToWorld, Transformation& _worldToObj, Shape* _shape, Material* _mat){
+	objToWorld = _objToWorld;	
+	worldToObj = _worldToObj;
 	shape = _shape;
 	mat = _mat; 
 }

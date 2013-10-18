@@ -9,12 +9,31 @@ using namespace std;
 
 
 void Parser::loadScene(std::string file) {
+	Material material;
+
 	maxDepth = 0;
 	shininess = 1.0;
 	kr.setValue(0.0, 0.0, 0.0);
 	ka.setValue(0.0, 0.0, 0.0);
 	ks.setValue(0.0, 0.0, 0.0);
 	kd.setValue(0.0, 0.0, 0.0);
+
+	matrixStack(0,0) = 1;
+	matrixStack(0,1) = 1;
+	matrixStack(0,2) = 1;
+	matrixStack(0,3) = 1;
+	matrixStack(1,0) = 1;
+	matrixStack(1,1) = 1;
+	matrixStack(1,2) = 1;
+	matrixStack(1,3) = 1;
+	matrixStack(2,0) = 1;
+	matrixStack(2,1) = 1;
+	matrixStack(2,2) = 1;
+	matrixStack(2,3) = 1;
+	matrixStack(3,0) = 1;
+	matrixStack(3,1) = 1;
+	matrixStack(3,2) = 1;
+	matrixStack(3,3) = 1;
 
 	std::string fname = "output.bmp";
 
@@ -23,7 +42,6 @@ void Parser::loadScene(std::string file) {
 		std::cout << "Unable to open file" << std::endl;
 	} else {
 		std::string line;
-		//MatrixStack mst;
 
 		while(inpfile.good()) {
 			std::vector<std::string> splitline;
@@ -231,25 +249,23 @@ void Parser::loadScene(std::string file) {
 				//   Store current top of matrix stack
 
 				Point point;
-
-				Shape* shape;
-				shape->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()), atof(splitline[4].c_str()), point, point, point, 0.0);
+				Shape shape;
+				shape.setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()), atof(splitline[4].c_str()), point, point, point, 0.0);
 
 				BRDF brdf;
 				brdf.setValue(kd, ks, ka, kr);
 
-				Material* material;
-				material->setValue(brdf);
+				material.setValue(brdf);
 
 				Matrix4f matrix = matrixStack;
 				Matrix4f inverse = matrix.inverse();	
 
 				Transformation tMatrix, tInverseMatrix;
-				tMatrix.setValue(&matrix);
-				tInverseMatrix.setValue(&inverse);
+				tMatrix.setValue(matrix);
+				tInverseMatrix.setValue(inverse);
 
 				GeometricPrimitive sphere;
-				sphere.setValue(&tInverseMatrix, &tMatrix, shape, material);
+				sphere.setValue(tInverseMatrix, tMatrix, &shape, &material);
 
 				primitives.push_back(sphere);
 
@@ -311,25 +327,23 @@ void Parser::loadScene(std::string file) {
 				//   Store 3 integers to index into array
 				//   Store current property values
 				//   Store current top of matrix stack
-
 				Shape shape;
-				shape.setValue(NULL, NULL, NULL, NULL, vertices[atof(splitline[1].c_str())], vertices[atof(splitline[2].c_str())], vertices[atof(splitline[3].c_str())], 1.0);
+				shape.setValue(0, 0, 0, 0, vertices[atof(splitline[1].c_str())], vertices[atof(splitline[2].c_str())], vertices[atof(splitline[3].c_str())], 1.0);
 
 				BRDF brdf;
 				brdf.setValue(kd, ks, ka, kr);
 
-				Material material;
 				material.setValue(brdf);
 
 				Matrix4f inverse = matrixStack.inverse();
 
 				Transformation tMatrix, tInverseMatrix;
 
-				tMatrix.setValue(&matrixStack);
-				tInverseMatrix.setValue(&inverse);
+				tMatrix.setValue(matrixStack);
+				tInverseMatrix.setValue(inverse);
 
 				GeometricPrimitive triangle;
-				triangle.setValue(&tInverseMatrix, &tMatrix, &shape, &material);
+				triangle.setValue(tInverseMatrix, tMatrix, &shape, &material);
 
 				primitives.push_back(triangle);
 
@@ -348,15 +362,13 @@ void Parser::loadScene(std::string file) {
 				//   Store 3 integers to index into array
 				//   Store current property values
 				//   Store current top of matrix stack
-
 				Shape shape;
 				shape.setValue(NULL, NULL, NULL, NULL, verticesNormal[atof(splitline[1].c_str())], verticesNormal[atof(splitline[2].c_str())], verticesNormal[atof(splitline[3].c_str())], 1.0);
 
 				BRDF brdf;
 				brdf.setValue(kd, ks, ka, kr);
 
-				Material* material;
-				material->setValue(brdf);
+				material.setValue(brdf);
 
 				Matrix4f matrix;
 				matrix = matrixStack;
@@ -364,11 +376,11 @@ void Parser::loadScene(std::string file) {
 				inverse = matrix.inverse();	
 
 				Transformation tMatrix, tInverseMatrix;
-				tMatrix.setValue(&matrix);
-				tInverseMatrix.setValue(&inverse);
+				tMatrix.setValue(matrix);
+				tInverseMatrix.setValue(inverse);
 
 				GeometricPrimitive triangle;
-				triangle.setValue(&tInverseMatrix, &tMatrix, &shape, material);
+				triangle.setValue(tInverseMatrix, tMatrix, &shape, &material);
 
 				primitives.push_back(triangle);
 			}

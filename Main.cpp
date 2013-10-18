@@ -5,6 +5,8 @@
 #include "Ray.h"
 #include "Vector.h"
 #include <iostream>
+#include "Parser.h"
+#include "Scene.h"
 using namespace std;
 
 int main( int argc, const char* argv[] )
@@ -33,7 +35,7 @@ int main( int argc, const char* argv[] )
 	}
 	return 0; */
 
-
+	/*
 	Point one;
 	one.setValue(6.0, 0.0, 0.0);
 	Point two;
@@ -62,8 +64,12 @@ int main( int argc, const char* argv[] )
 		cout << "No Intersection \n";
 	}
 	return 0;
-
-
+	*/
+	Parser parser;
+	Scene scene;
+	parser.loadScene(argv[1]);
+	scene.setValue(&parser);
+	return 0;
 }
 
 

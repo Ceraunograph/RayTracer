@@ -1,5 +1,7 @@
 #include "Shape.h"
 #include <math.h> 
+#include <iostream>
+using namespace std;
 
 void Shape::setValue(float _x, float _y, float _z, float _radius, Point _v1, Point _v2, Point _v3, float shape) {
 	if (shape == 0){
@@ -33,7 +35,7 @@ bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 	// (d.d)t^2 + 2(P0-C).dt + (P0-C).(P0-C)-r^2 = 0
 	// At^2 + Bt + C = 0
 	Vector temp1;
-	temp1.createFromPoints(ray.pos, center);
+	temp1.createFromPoints(center, ray.pos);
 
 	// set up equation
 	float A = ray.dir.dotProduct(ray.dir); // dot product for vector needed
@@ -68,18 +70,15 @@ bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 
 	Vector edge1;
-	edge1.setValue(v1.x, v1.y, v1.z);
 	Vector edge2;
-	edge2.setValue(v2.x, v2.y, v2.z);
 	Vector edge3;
-	edge3.setValue(v3.x, v3.y, v3.z);
 	Vector negativeEdge3;
 	
-	edge1.setValue(edge1.x-v3.x, edge1.y-v3.y, edge1.z-v3.z);   // one edge of the triangle
-	edge2.setValue(edge2.x-v1.x, edge2.y-v1.y, edge2.z-v1.z);   // another edge of the triangle     (counterclockwise fashion)
-	edge3.setValue(edge3.x-v2.x, edge3.y-v2.y, edge3.z-v2.z);   // third edge of the triangle
+	edge1.setValue(v2.x-v1.x, v2.y-v1.y, v2.z-v1.z);   // one edge of the triangle
+	edge2.setValue(v3.x-v2.x, v3.y-v2.y, v3.z-v2.z);   // another edge of the triangle     (counterclockwise fashion)
+	edge3.setValue(v1.x-v3.x, v1.y-v3.y, v1.z-v3.z);   // third edge of the triangle
 	negativeEdge3.setValue(-edge3.x, -edge3.y, -edge3.z);
-	Vector normal = edge2.crossProduct(negativeEdge3);    // normal of the triangle's plane
+	Vector normal = negativeEdge3.crossProduct(edge2);    // normal of the triangle's plane
 
 	float A = normal.x;            // equation of the plane = Ax + By + Cz + D = 0
 	float B = normal.y;
@@ -96,12 +95,14 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	float denom = normal.dotProduct(ray.dir);
 
 	if (denom == 0.0){   // the direction of the ray and the normal of the plane is perpendicular
+		cout << "perpendicular \n";
 		return false;
 	}
 
-	*thit = num / denom;
-
+	*thit = - (num / denom);
 	if (*thit < ray.t_min || *thit > ray.t_max){  // hit time outside of boundary
+		
+		cout << "outside boundary \n";
 		return false;
 	}
 
@@ -109,14 +110,21 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	hitPoint.setValue(ray.pos.x + ray.dir.x * *thit, ray.pos.y + ray.dir.y * *thit, ray.pos.z + ray.dir.z * *thit);
 	Vector vertexToPoint;
 
-	vertexToPoint.createFromPoints(hitPoint, v1);
+	vertexToPoint.createFromPoints(v1, hitPoint);
 	float leftOfEdge1 = normal.dotProduct(edge1.crossProduct(vertexToPoint));
-	vertexToPoint.createFromPoints(hitPoint, v2);
+	vertexToPoint.createFromPoints(v2, hitPoint);
 	float leftOfEdge2 = normal.dotProduct(edge2.crossProduct(vertexToPoint));
-	vertexToPoint.createFromPoints(hitPoint, v3); 
+	vertexToPoint.createFromPoints(v3, hitPoint); 
 	float leftOfEdge3 = normal.dotProduct(edge3.crossProduct(vertexToPoint));
+
+	cout << leftOfEdge1;
+	cout << "and";
+	cout << leftOfEdge2;
+	cout << "and";
+	cout << leftOfEdge3;
 	
 	if (leftOfEdge1 <= 0.0 || leftOfEdge2 <= 0.0 || leftOfEdge3 <= 0.0){ // hit point not inside the triangle 
+		cout << "not inside the trianlge \n";
 		return false;	
 	}
 
@@ -143,5 +151,6 @@ bool Shape::intersectP(Ray& ray){
 	LocalGeo *local;
 	return intersect(ray, thit, local);
 }
+
 
 

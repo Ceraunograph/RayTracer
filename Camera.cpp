@@ -34,6 +34,7 @@ void Camera::generateRay(Sample& sample, Ray* ray) {
 
 	Vector direction;
 	direction.createFromPoints(origin, samplePos);
+	direction.normalize();
 
 	ray->setValue(origin, direction, 0.0, std::numeric_limits<float>::max());
 	

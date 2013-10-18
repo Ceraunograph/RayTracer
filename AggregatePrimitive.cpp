@@ -1,6 +1,6 @@
 #include "AggregatePrimitive.h"
 
-void AggregatePrimitive::setValue(std::vector<GeometricPrimitive> _list){
+void AggregatePrimitive::setValue(std::vector<GeometricPrimitive, Eigen::aligned_allocator<GeometricPrimitive>> _list){
 	primitiveList = _list;
 }
 
@@ -10,7 +10,7 @@ bool AggregatePrimitive::intersect(Ray& ray, float* thit, Intersection* in){
 	float hit;
 	Intersection intersection;
 	
-	for (std::vector<GeometricPrimitive>::iterator it = primitiveList.begin(); it != primitiveList.end(); it++){
+	for (std::vector<GeometricPrimitive, Eigen::aligned_allocator<GeometricPrimitive>>::iterator it = primitiveList.begin(); it != primitiveList.end(); it++){
 		if ((*it).intersect(ray, &hit, &intersection)){
 			if (hit < minHit){
 				minHit = hit;

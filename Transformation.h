@@ -21,7 +21,7 @@ class LocalGeo;
 class Transformation {
 public:
 	Matrix4f m, minvt;
-	void setValue(Matrix4f* m);
+	void setValue(Matrix4f& m);
 	Point operator * (Point p);
 	Vector operator * (Vector v);
 	Normal operator * (Normal n);

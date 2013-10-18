@@ -146,10 +146,10 @@
     <ClInclude Include="BRDF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Film.h">
+    <ClInclude Include="Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Parser.h">
+    <ClInclude Include="Film.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

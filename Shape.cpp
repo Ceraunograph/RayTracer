@@ -69,16 +69,20 @@ bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 
 bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 
-	Vector edge1;
-	Vector edge2;
-	Vector edge3;
-	Vector negativeEdge3;
+	Vector edge21;
+	Vector edge32;
+	Vector edge13;
+	Vector edge31;
+	Vector edge12;
+	Vector edge23;
 	
-	edge1.setValue(v2.x-v1.x, v2.y-v1.y, v2.z-v1.z);   // one edge of the triangle
-	edge2.setValue(v3.x-v2.x, v3.y-v2.y, v3.z-v2.z);   // another edge of the triangle     (counterclockwise fashion)
-	edge3.setValue(v1.x-v3.x, v1.y-v3.y, v1.z-v3.z);   // third edge of the triangle
-	negativeEdge3.setValue(-edge3.x, -edge3.y, -edge3.z);
-	Vector normal = negativeEdge3.crossProduct(edge2);    // normal of the triangle's plane
+	edge21.setValue(v2.x-v1.x, v2.y-v1.y, v2.z-v1.z);   // one edge of the triangle
+	edge32.setValue(v3.x-v2.x, v3.y-v2.y, v3.z-v2.z);   // another edge of the triangle     (counterclockwise fashion)
+	edge13.setValue(v1.x-v3.x, v1.y-v3.y, v1.z-v3.z);   // third edge of the triangle
+	edge31.setValue(-edge13.x, -edge13.y, -edge13.z);
+	edge12.setValue(-edge21.x, -edge21.y, -edge21.z);
+	edge23.setValue(-edge32.x, -edge32.y, -edge32.z);
+	Vector normal = edge23.crossProduct(edge31);    // normal of the triangle's plane
 
 	float A = normal.x;            // equation of the plane = Ax + By + Cz + D = 0
 	float B = normal.y;
@@ -110,23 +114,22 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	hitPoint.setValue(ray.pos.x + ray.dir.x * *thit, ray.pos.y + ray.dir.y * *thit, ray.pos.z + ray.dir.z * *thit);
 	Vector vertexToPoint;
 
-	vertexToPoint.createFromPoints(v1, hitPoint);
-	float leftOfEdge1 = normal.dotProduct(edge1.crossProduct(vertexToPoint));
-	vertexToPoint.createFromPoints(v2, hitPoint);
-	float leftOfEdge2 = normal.dotProduct(edge2.crossProduct(vertexToPoint));
-	vertexToPoint.createFromPoints(v3, hitPoint); 
-	float leftOfEdge3 = normal.dotProduct(edge3.crossProduct(vertexToPoint));
 
-	cout << leftOfEdge1;
-	cout << "and";
-	cout << leftOfEdge2;
-	cout << "and";
-	cout << leftOfEdge3;
+        
+	vertexToPoint.createFromPoints(v1, hitPoint);
+	float leftOfEdge1 = (edge21.crossProduct(edge31)).dotProduct(edge21.crossProduct(vertexToPoint));
+	vertexToPoint.createFromPoints(v2, hitPoint);
+	float leftOfEdge2 = (edge32.crossProduct(edge12)).dotProduct(edge32.crossProduct(vertexToPoint));
+	vertexToPoint.createFromPoints(v3, hitPoint); 
+	float leftOfEdge3 = (edge13.crossProduct(edge23)).dotProduct(edge13.crossProduct(vertexToPoint));
 	
-	if (leftOfEdge1 <= 0.0 || leftOfEdge2 <= 0.0 || leftOfEdge3 <= 0.0){ // hit point not inside the triangle 
+	cout << leftOfEdge1 << "and" << leftOfEdge2 << "and" << leftOfEdge3;
+	 
+	if (leftOfEdge1 < 0.0 || leftOfEdge2 < 0.0 || leftOfEdge3 < 0.0){ // hit point not inside the triangle 
 		cout << "not inside the trianlge \n";
 		return false;	
-	}
+	}   
+
 
 	Normal normalizedNormal;
 	normalizedNormal.setValue(normal.x, normal.y, normal.z);

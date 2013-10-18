@@ -41,13 +41,13 @@ int main( int argc, const char* argv[] )
 	Point two;
 	two.setValue(-6.0, 0.0, 0.0);
 	Point three;
-	three.setValue(0.0, 0.0, -6.0);
+	three.setValue(0.0, 0.0, 6.0);
 
 	Shape triangle;
 	triangle.setValue(0.0, 0.0, 0.0, 0.0, one, two, three, 1.0);
 
 	Point pos;
-	pos.setValue(0.0, 10.0, 3.0);
+	pos.setValue(0.0, 5.0, 3.0);
 	Vector dir;
 	dir.setValue(0.0, -3.0, 0.0);
 	dir.normalize();
@@ -59,7 +59,6 @@ int main( int argc, const char* argv[] )
 
 	if (triangle.intersect(ray, &thit, &local)){
 		cout << "Intersection \n";
-		cout << local.pos.x;
 	}else {
 		cout << "No Intersection \n";
 	}

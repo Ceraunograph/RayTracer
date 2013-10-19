@@ -122,9 +122,13 @@ void Parser::loadScene(std::string file) {
 				lookFromPoint.setValue(lookFromX, lookFromY, lookFromZ);
 
 				Vector vx, vy, vz;
-				vz.createFromPoints(lookFromPoint, lookAtPoint);
+				vz.createFromPoints(lookAtPoint, lookFromPoint);
 				vx = lookUp.crossProduct(vz);
-				vy = vz.crossProduct(vx);				
+				vy = vz.crossProduct(vx);	
+
+				vx.normalize();
+				vy.normalize();
+				vz.normalize();
 
 				Matrix4f trans;
 				trans(0,0) = 1.0; 
@@ -144,111 +148,23 @@ void Parser::loadScene(std::string file) {
 				trans(3,2) = 0.0;
 				trans(3,3) = 1.0;
 
-				Matrix4f zeroMatrix;
-				Matrix4f idenMatrix;
 				Matrix4f rotateMatrix;
-				Matrix4f tensorProduct;
-				Transformation tempTransform;
-				Vector cross;
-				float rotateAngle, dot;
-				Vector xAxis, yAxis, zAxis;
-				xAxis.setValue(-1,0,0);
-				yAxis.setValue(0,1,0);
-				zAxis.setValue(0,0,-1);
-
-				Matrix4f rotate1;
-				vy.normalize();
-
-				cross = vy.crossProduct(yAxis);
-				dot = vy.dotProduct(yAxis);
-
-				rotateAngle = acos(dot);
-
-				zeroMatrix << 0, 0, 0, 0,
-					0, 0, 0, 0,
-					0, 0, 0, 0,
-					0, 0, 0, 1;
-
-				tensorProduct << 0, 0, 0, 0,
-					0, 0, 0, 0,
-					0, 0, 0, 0,
-					0, 0, 0, 0;
-
-				idenMatrix << 1, 0, 0, 0,
-					0, 1, 0, 0,
-					0, 0, 1, 0,
-					0, 0, 0, 1;
-
-				zeroMatrix(0,1) = -cross.z;
-				zeroMatrix(0,2) = cross.y;
-				zeroMatrix(1,0) = cross.z;
-				zeroMatrix(1,2) = -cross.x;
-				zeroMatrix(2,0) = -cross.y;
-				zeroMatrix(2,1) = cross.x;
-
-				tensorProduct(0,0) = cross.x * cross.x;
-				tensorProduct(0,1) = cross.x * cross.y;
-				tensorProduct(0,2) = cross.x * cross.z;
-				tensorProduct(1,0) = cross.y * cross.x;
-				tensorProduct(1,1) = cross.y * cross.y;
-				tensorProduct(1,2) = cross.y * cross.z;
-				tensorProduct(2,0) = cross.x * cross.z;
-				tensorProduct(2,1) = cross.y * cross.z;
-				tensorProduct(2,2) = cross.z * cross.z;
-
-				rotate1 = idenMatrix*cos(rotateAngle) + zeroMatrix*sin(rotateAngle) + (zeroMatrix*zeroMatrix)*(1-cos(rotateAngle));
-
-				rotate1(3,3) = 1;
-
-				tempTransform.setValue(rotate1);
-
-				vx = tempTransform*vx;
-				vy = tempTransform*vy;
-				vz = tempTransform*vz;
-
-				Matrix4f rotate2;
-				vz.normalize();
-				cross = vz.crossProduct(zAxis);
-				dot = vz.dotProduct(zAxis);
-
-				rotateAngle = acos(dot);
-
-				zeroMatrix << 0, 0, 0, 0,
-					0, 0, 0, 0,
-					0, 0, 0, 0,
-					0, 0, 0, 1;
-
-				tensorProduct << 0, 0, 0, 0,
-					0, 0, 0, 0,
-					0, 0, 0, 0,
-					0, 0, 0, 0;
-
-				idenMatrix << 1, 0, 0, 0,
-					0, 1, 0, 0,
-					0, 0, 1, 0,
-					0, 0, 0, 1;
-
-				zeroMatrix(0,1) = -cross.z;
-				zeroMatrix(0,2) = cross.y;
-				zeroMatrix(1,0) = cross.z;
-				zeroMatrix(1,2) = -cross.x;
-				zeroMatrix(2,0) = -cross.y;
-				zeroMatrix(2,1) = cross.x;
-
-				tensorProduct(0,0) = cross.x * cross.x;
-				tensorProduct(0,1) = cross.x * cross.y;
-				tensorProduct(0,2) = cross.x * cross.z;
-				tensorProduct(1,0) = cross.y * cross.x;
-				tensorProduct(1,1) = cross.y * cross.y;
-				tensorProduct(1,2) = cross.y * cross.z;
-				tensorProduct(2,0) = cross.z * cross.x;
-				tensorProduct(2,1) = cross.z * cross.y;
-				tensorProduct(2,2) = cross.z * cross.z;
-
-				rotate2 = idenMatrix*cos(rotateAngle)  + zeroMatrix*sin(rotateAngle) + (zeroMatrix*zeroMatrix)*(1-cos(rotateAngle));
-				rotate2(3,3) = 1;
-
-				rotateMatrix  = rotate2*rotate1;
+				rotateMatrix(0,0) = vx.x; 
+				rotateMatrix(0,1) = vx.y;
+				rotateMatrix(0,2) = vx.z;
+				rotateMatrix(0,3) = 0.0;
+				rotateMatrix(1,0) = vy.x;
+				rotateMatrix(1,1) = vy.y;
+				rotateMatrix(1,2) = vy.z;
+				rotateMatrix(1,3) = 0.0;
+				rotateMatrix(2,0) = vz.x;
+				rotateMatrix(2,1) = vz.y;
+				rotateMatrix(2,2) = vz.z;
+				rotateMatrix(2,3) = 0.0;
+				rotateMatrix(3,0) = 0.0;
+				rotateMatrix(3,1) = 0.0;
+				rotateMatrix(3,2) = 0.0;
+				rotateMatrix(3,3) = 1.0;
 
 				toCamera = rotateMatrix * trans;
 				toCameraInverse = toCamera.inverse();

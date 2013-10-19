@@ -1,44 +1,10 @@
-﻿Build started 10/19/2013 3:50:54 PM.
+﻿Build started 10/19/2013 4:28:26 PM.
      1>Project "C:\Users\Lionel Honda\Documents\Visual Studio 2012\Projects\RayTracer\RayTracer\RayTracer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\Lionel Honda\Documents\Visual Studio 2012\eigen-eigen-ffa86ffb5570" /I"C:\Users\Lionel Honda\Documents\Visual Studio 2012\CImg-1.5.7_rolling131012" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Parser.cpp
-         Parser.cpp
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(70): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(71): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(104): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(105): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(106): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(107): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(108): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(109): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(110): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(111): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(112): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(113): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(273): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(318): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(335): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(353): warning C4244: 'argument' : conversion from 'double' to 'unsigned int', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(389): warning C4244: 'argument' : conversion from 'double' to 'unsigned int', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(422): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(426): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(430): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(446): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(447): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(448): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(449): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(513): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(518): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(523): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(585): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(587): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(607): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(609): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(633): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(643): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(652): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(659): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\parser.cpp(668): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\Lionel Honda\Documents\Visual Studio 2012\eigen-eigen-ffa86ffb5570" /I"C:\Users\Lionel Honda\Documents\Visual Studio 2012\CImg-1.5.7_rolling131012" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Camera.cpp
+         Camera.cpp
+     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\camera.cpp(29): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\camera.cpp(30): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Lionel Honda\Documents\Visual Studio 2012\Projects\RayTracer\Debug\RayTracer.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Lionel Honda\Documents\Visual Studio 2012\Projects\RayTracer\Debug\RayTracer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Lionel Honda\Documents\Visual Studio 2012\Projects\RayTracer\Debug\RayTracer.lib" /MACHINE:X86 Debug\AggregatePrimitive.obj
          Debug\BRDF.obj
@@ -68,4 +34,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.14
+Time Elapsed 00:00:00.84

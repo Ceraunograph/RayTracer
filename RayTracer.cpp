@@ -25,7 +25,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 			bool pointLight;
 
 			(*it).generateLightRay(in.localGeo, &lray, &lcolor, &dist, &pointLight);
-
+			/*
 			// Check if the light is blocked or not (shadows)
 			if (!primitive.intersectP(lray, thit, in)) {
 				// If not blocked, do shading calculation for this
@@ -34,9 +34,11 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 				Color tempColor;
 				tempColor = shading(in.localGeo, brdf, lray, ray, lcolor, brdf.shine, dist, pointLight);
 				color->add(tempColor);
+				color->add(brdf.ka);
 			}
+			*/
+			color->add(brdf.ka);
 		}
-		color->add(brdf.ka);
 		//std::cout << "hello";
 		/*
 		// Handle mirror reflection

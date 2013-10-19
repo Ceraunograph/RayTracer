@@ -26,8 +26,8 @@ void Camera::generateRay(Sample& sample, Ray* ray) {
 	Point origin;
 	origin.setValue(0.0, 0.0, 0.0); // Let Pos of Camera to be the origin  (Camera Coordinate)
 
-	float newx = ((2*sample.x/width) - 1)* tan(fovx/2 * 3.14159265/180.0);
-	float newy = ((2*sample.y/height) - 1)* tan(fovy/2 * 3.14159265/180.0);
+	float newx = ((2.0*sample.x/width) - 1.0)* tan(fovx/2.0 * 3.14159265/180.0);
+	float newy = ((2.0*sample.y/height) - 1.0)* tan(fovy/2.0 * 3.14159265/180.0);
 
 	Point samplePos;
 	samplePos.setValue(newx,newy,-1.0);

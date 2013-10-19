@@ -89,7 +89,7 @@ Color RayTracer::shading(LocalGeo local, BRDF brdf, Ray lray, Ray vray, Color lc
 	float diffuse = normal_vector.dotProduct(lray.dir);
 
 	Vector reflect;
-	float scalar = 2 * lray.dir.dotProduct(normal_vector);
+	float scalar = 2.0 * lray.dir.dotProduct(normal_vector);
 	reflect.setValue(local.normal.x * scalar, local.normal.y * scalar, local.normal.z * scalar);
 	reflect.setValue(reflect.x - lray.dir.x, reflect.y - lray.dir.y, reflect.z - lray.dir.z); //reflect vector
 	reflect.normalize();

@@ -17,7 +17,7 @@ public:
 	bool point;
 	Color color;
 	void setValue(Point source, Vector dir, bool directional, bool point, Color color);
-	void generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor);
+	void generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor, float* dist, bool* pointLight);
 };
 
 #endif

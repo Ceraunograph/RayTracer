@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include <limits>
-#include <math.h>
+#include <cmath>
 
 void Camera::setValue(	float _fromX,	float _fromY,	float _fromZ, 
 						float _atX,		float _atY,		float _atZ, 
@@ -26,8 +26,8 @@ void Camera::generateRay(Sample& sample, Ray* ray) {
 	Point origin;
 	origin.setValue(0.0, 0.0, 0.0); // Let Pos of Camera to be the origin  (Camera Coordinate)
 
-	float newx = ((2.0 * sample.x - width) / width ) * tan (fovx);
-	float newy = ((2.0 * sample.y - height) / height) * tan (fovy); 
+	float newx = ((2.0 * (sample.x) - width) / width) * tan(fovx * 3.14159265/180.0);
+	float newy = ((2.0 * (sample.y) - height) / height) * tan(fovy * 3.14159265/180.0); 
 
 	Point samplePos;
 	samplePos.setValue(newx,newy,-1.0);

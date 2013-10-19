@@ -21,8 +21,10 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 		for (std::vector<Light>::iterator it = lights.begin(); it != lights.end(); it++){
 			Ray lray;
 			Color lcolor;
+			float dist;
+			bool pointLight;
 
-			(*it).generateLightRay(in.localGeo, &lray, &lcolor);
+			(*it).generateLightRay(in.localGeo, &lray, &lcolor, &dist, &pointLight);
 
 			// Check if the light is blocked or not (shadows)
 			if (!primitive.intersectP(lray, thit, in)) {
@@ -30,7 +32,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 				// light source
 
 				Color tempColor;
-				tempColor = shading(in.localGeo, brdf, lray, ray, lcolor, brdf.shine);
+				tempColor = shading(in.localGeo, brdf, lray, ray, lcolor, brdf.shine, dist, pointLight);
 				color->add(tempColor);
 			}
 		}
@@ -80,24 +82,33 @@ Ray RayTracer::createReflectRay(LocalGeo local, Ray ray) {
 	return return_ray;
 }
 
-Color RayTracer::shading(LocalGeo local, BRDF brdf, Ray lray, Ray vray, Color lcolor, float coeff) {
+Color RayTracer::shading(LocalGeo local, BRDF brdf, Ray lray, Ray vray, Color lcolor, float coeff, float dist, bool pointLight) {
 	Color color;
 	Vector normal_vector;
 	normal_vector.setValue(local.normal.x, local.normal.y, local.normal.z);
-
 	float diffuse = normal_vector.dotProduct(lray.dir);
 
 	Vector reflect;
 	float scalar = 2 * lray.dir.dotProduct(normal_vector);
 	reflect.setValue(local.normal.x * scalar, local.normal.y * scalar, local.normal.z * scalar);
-	reflect.setValue(reflect.x - lray.dir.x, reflect.y - lray.dir.y, reflect.z - lray.dir.z);  //reflect vector
+	reflect.setValue(reflect.x - lray.dir.x, reflect.y - lray.dir.y, reflect.z - lray.dir.z); //reflect vector
 	reflect.normalize();
 	float specular = reflect.dotProduct(vray.dir);
 	specular = pow(specular, coeff);
 
-	color.setValue(diffuse * lcolor.r * brdf.kd.r + specular * lcolor.r * brdf.ks.r,
-		diffuse * lcolor.g * brdf.kd.g + specular * lcolor.g * brdf.ks.g, 
-		diffuse * lcolor.b * brdf.kd.b + specular * lcolor.b * brdf.ks.b);
+	dist = pow(dist, -2);
+	float intensityR = lcolor.r;
+	float intensityG = lcolor.g;
+	float intensityB = lcolor.b;
+	if (pointLight){ 
+		intensityR = intensityR * dist;
+		intensityG = intensityG * dist;
+		intensityB = intensityB * dist;
+	}
+
+	color.setValue(diffuse * intensityR * brdf.kd.r + specular * intensityR * brdf.ks.r,
+		diffuse * intensityG * brdf.kd.g + specular * intensityG * brdf.ks.g,
+		diffuse * intensityB * brdf.kd.b + specular * intensityB * brdf.ks.b);
 
 	return color;
 }

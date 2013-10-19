@@ -10,13 +10,14 @@ void Film::setValue(int _width, int _height) {
 
 void Film::commit(Sample& sample, Color& color) {
 
-	float largest_color;
-	if (color.r > color.g && color.r > color.b) {
+	float largest_color = 1.0;
+	if (color.r > color.g && color.r > color.b && color.r > 1.0) {
 		largest_color = color.r;
-	} else if (color.g > color.r && color.g > color.b) {
+	} else if (color.g > color.r && color.g > color.b && color.g > 1.0) {
 		largest_color = color.g;
-	} else {
+	} else if (color.b > color.r && color.b > color.g && color.b > 1.0) {
 		largest_color = color.b;
+	} else {
 	}
 
 	int pixel_color[] = { (color.r/largest_color)*255, (color.g/largest_color)*255, (color.b/largest_color)*255 };

@@ -129,7 +129,7 @@ void Parser::loadScene(std::string file) {
 				trans(3,1) = 0.0;
 				trans(3,2) = 0.0;
 				trans(3,3) = 1.0;
-
+				/*
 				Matrix4f rotate1;
 				Vector vector1;
 				vector1.setValue(lookAtX - lookFromX, lookAtY - lookFromY, lookAtZ - lookFromZ);
@@ -228,9 +228,10 @@ void Parser::loadScene(std::string file) {
 				rotate4(3,1) = 0.0;
 				rotate4(3,2) = 0.0;
 				rotate4(3,3) = 1.0;
-
-				toCamera = rotate4 * rotate3 * rotate2 * rotate1 * trans;
+				*/
+				toCamera = /*rotate4 * rotate3 * rotate2 * rotate1 */ trans;
 				toCameraInverse = toCamera.inverse();
+				matrixStack = toCamera;
 			}
 
 			//sphere x y z radius
@@ -245,10 +246,10 @@ void Parser::loadScene(std::string file) {
 				//   Store current property values
 				//   Store current top of matrix stack
 
-				Point point;
+				Point* point = new Point;
 
 				Shape* shape = new Shape;
-				shape->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()), atof(splitline[4].c_str()), point, point, point, 0.0);
+				shape->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()), atof(splitline[4].c_str()), *point, *point, *point, 0.0);
 
 				BRDF* brdf = new BRDF;
 				brdf->setValue(kd, ks, ka, kr, shininess);
@@ -652,4 +653,3 @@ void Parser::loadScene(std::string file) {
 		inpfile.close();
 	}
 }
-

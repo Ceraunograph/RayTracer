@@ -105,7 +105,6 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 
 	*thit = - (num / denom);
 	if (*thit < ray.t_min || *thit > ray.t_max){  // hit time outside of boundary
-		
 		//cout << "outside boundary \n";
 		return false;
 	}

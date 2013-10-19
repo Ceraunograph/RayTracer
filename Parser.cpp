@@ -112,6 +112,20 @@ void Parser::loadScene(std::string file) {
 				lookUpZ= atof(splitline[9].c_str());
 				fov = atof(splitline[10].c_str());
 
+				Vector lookFrom, lookAt, lookUp;
+				Point lookAtPoint, lookFromPoint;
+				lookFrom.setValue(lookFromX, lookFromY, lookFromZ);
+				lookAt.setValue(lookAtX, lookAtY, lookAtZ);
+				lookUp.setValue(lookUpX, lookUpY, lookUpZ);
+
+				lookAtPoint.setValue(lookAtX, lookAtY, lookAtZ);
+				lookFromPoint.setValue(lookFromX, lookFromY, lookFromZ);
+
+				Vector vx, vy, vz;
+				vz.createFromPoints(lookAtPoint, lookFromPoint);
+				vx = lookUp.crossProduct(vz);
+				vy = vx.crossProduct(vx);				
+
 				Matrix4f trans;
 				trans(0,0) = 1.0; 
 				trans(0,1) = 0.0;
@@ -132,10 +146,10 @@ void Parser::loadScene(std::string file) {
 				
 				Matrix4f rotate1;
 				Vector vector1;
-				vector1.setValue(lookAtX - lookFromX, lookAtY - lookFromY, lookAtZ - lookFromZ);
+				vector1.setValue(vz.x, vz.y, vz.z);
 				vector1.normalize();
 				Vector vector2;
-				vector2.setValue(0.0, lookAtY - lookFromY, lookAtZ - lookFromZ);
+				vector2.setValue(0.0, vz.y, vz.z);
 				vector2.normalize();
 				float cosAngle = vector1.dotProduct(vector2);
 				float sinAngle = vector1.crossProduct(vector2).magnitude(); 
@@ -158,9 +172,9 @@ void Parser::loadScene(std::string file) {
 				rotate1(3,3) = 1.0;
 
 				Matrix4f rotate2;
-				vector1.setValue(lookAtX - lookFromX, lookAtY - lookFromY, lookAtZ - lookFromZ);
+				vector1.setValue(vz.x, vz.y, vz.z);
 				vector1.normalize();
-				vector2.setValue(0.0, lookAtY - lookFromY, lookAtZ - lookFromZ);
+				vector2.setValue(0.0, vz.y, vz.z);
 				vector2.normalize();
 				cosAngle = vector1.dotProduct(vector2);
 				sinAngle = vector1.crossProduct(vector2).magnitude(); 
@@ -182,9 +196,9 @@ void Parser::loadScene(std::string file) {
 				rotate2(3,3) = 1.0;
 
 				Matrix4f rotate3;
-				vector1.setValue(lookUpX - lookFromX, lookUpY - lookFromY, lookUpZ - lookFromZ);
+				vector1.setValue(vy.x, vy.y, vy.z);
 				vector1.normalize();
-				vector2.setValue(0.0, lookUpY - lookFromY, lookUpZ - lookFromZ);
+				vector2.setValue(0.0, vy.y, vy.z);
 				vector2.normalize();
 				cosAngle = vector1.dotProduct(vector2);
 				sinAngle = vector1.crossProduct(vector2).magnitude(); 
@@ -206,7 +220,7 @@ void Parser::loadScene(std::string file) {
 				rotate3(3,3) = 1.0;
 
 				Matrix4f rotate4;
-				vector1.setValue(0.0, lookUpY - lookFromY, lookUpZ - lookFromZ);
+				vector1.setValue(0.0, vy.y, vy.z);
 				vector1.normalize();
 				vector2.setValue(0.0, 1.0, 0.0);
 				vector2.normalize();

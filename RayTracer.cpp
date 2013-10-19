@@ -37,7 +37,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 			}
 		}
 		color->add(brdf.ka);
-		//std::cout << "hello";
+		std::cout << "hello";
 		/*
 		// Handle mirror reflection
 		if (brdf.kr.r + brdf.kr.g + brdf.kr.b > 0) {

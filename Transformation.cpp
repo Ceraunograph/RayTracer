@@ -20,9 +20,9 @@ Point Transformation::operator*(Point p) {
 Vector Transformation::operator*(Vector v) {
 	Vector new_vector;
 	float x, y, z;
-	x = v.x * m(0,0) + v.y * m(0,1) + v.z * m(0,2) + m(0,3);
-	y = v.x * m(1,0) + v.y * m(1,1) + v.z * m(1,2) + m(1,3);
-	z = v.x * m(2,0) + v.y * m(2,1) + v.z * m(2,2) + m(2,3);
+	x = v.x * m(0,0) + v.y * m(0,1) + v.z * m(0,2);
+	y = v.x * m(1,0) + v.y * m(1,1) + v.z * m(1,2);
+	z = v.x * m(2,0) + v.y * m(2,1) + v.z * m(2,2);
 	new_vector.setValue(x,y,z);
 	return new_vector;
 }	
@@ -30,9 +30,9 @@ Vector Transformation::operator*(Vector v) {
 Normal Transformation::operator*(Normal n) {
 	Normal new_normal;
 	float x, y, z;
-	x = n.x * minvt(0,0) + n.y * minvt(0,1) + n.z * minvt(0,2) + m(0,3);
-	y = n.x * minvt(1,0) + n.y * minvt(1,1) + n.z * minvt(1,2) + m(1,3);
-	z = n.x * minvt(2,0) + n.y * minvt(2,1) + n.z * minvt(2,2) + m(2,3);
+	x = n.x * minvt(0,0) + n.y * minvt(0,1) + n.z * minvt(0,2);
+	y = n.x * minvt(1,0) + n.y * minvt(1,1) + n.z * minvt(1,2);
+	z = n.x * minvt(2,0) + n.y * minvt(2,1) + n.z * minvt(2,2);
 	new_normal.setValue(x,y,z);
 	return new_normal;
 }
@@ -50,9 +50,9 @@ Ray Transformation::operator*(Ray r) {
 	pz = r.pos.x * m(2,0) + r.pos.y * m(2,1) + r.pos.z * m(2,2) + m(2,3);
 	new_point.setValue(px,py,pz);
 
-	vx = r.dir.x * m(0,0) + r.dir.y * m(0,1) + r.dir.z * m(0,2) + m(0,3);
-	vy = r.dir.x * m(1,0) + r.dir.y * m(1,1) + r.dir.z * m(1,2) + m(1,3);
-	vz = r.dir.x * m(2,0) + r.dir.y * m(2,1) + r.dir.z * m(2,2) + m(2,3);
+	vx = r.dir.x * m(0,0) + r.dir.y * m(0,1) + r.dir.z * m(0,2);
+	vy = r.dir.x * m(1,0) + r.dir.y * m(1,1) + r.dir.z * m(1,2);
+	vz = r.dir.x * m(2,0) + r.dir.y * m(2,1) + r.dir.z * m(2,2);
 	new_vector.setValue(vx,vy,vz);
 
 	new_ray.setValue(new_point, new_vector, r.t_min, r.t_max);
@@ -64,9 +64,9 @@ LocalGeo Transformation::operator*(LocalGeo g) {
 
 	Normal new_normal;
 	float nx, ny, nz;
-	nx = g.normal.x * minvt(0,0) + g.normal.y * minvt(0,1) + g.normal.z * minvt(0,2) + m(0,3);
-	ny = g.normal.x * minvt(1,0) + g.normal.y * minvt(1,1) + g.normal.z * minvt(1,2) + m(1,3);
-	nz = g.normal.x * minvt(2,0) + g.normal.y * minvt(2,1) + g.normal.z * minvt(2,2) + m(2,3);
+	nx = g.normal.x * minvt(0,0) + g.normal.y * minvt(0,1) + g.normal.z * minvt(0,2);
+	ny = g.normal.x * minvt(1,0) + g.normal.y * minvt(1,1) + g.normal.z * minvt(1,2);
+	nz = g.normal.x * minvt(2,0) + g.normal.y * minvt(2,1) + g.normal.z * minvt(2,2);
 	new_normal.setValue(nx,ny,nz);
 
 	Point new_point;

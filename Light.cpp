@@ -18,20 +18,23 @@ void Light::generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor, float* d
 		*pointLight = false;
 		lray->pos.setValue(local.pos.x, local.pos.y, local.pos.z);
 		lray->dir.setValue(dir.x, dir.y, dir.z);
+		*dist = sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
 		lray->t_min = 0.0;
 		lray->t_max = std::numeric_limits<float>::max();
+		//lray->dir.normalize();
 
 		lcolor->setValue(color.r, color.g, color.b);
-		*dist = sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
 	}else if (point) {
 		*pointLight = true;
 		lray->pos.setValue(local.pos.x, local.pos.y, local.pos.z);
 		lray->dir.createFromPoints(lray->pos, source);
+		*dist = sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
 		lray->t_min = 0.0;
 		lray->t_max = std::numeric_limits<float>::max();
+		//lray->dir.normalize();
 
 		lcolor->setValue(color.r, color.g, color.b);
-		*dist = sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
+
 	}else{
 		// throw an exception maybe?
 	}

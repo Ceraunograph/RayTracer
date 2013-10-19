@@ -129,7 +129,7 @@ void Parser::loadScene(std::string file) {
 				trans(3,1) = 0.0;
 				trans(3,2) = 0.0;
 				trans(3,3) = 1.0;
-				/*
+				
 				Matrix4f rotate1;
 				Vector vector1;
 				vector1.setValue(lookAtX - lookFromX, lookAtY - lookFromY, lookAtZ - lookFromZ);
@@ -228,8 +228,8 @@ void Parser::loadScene(std::string file) {
 				rotate4(3,1) = 0.0;
 				rotate4(3,2) = 0.0;
 				rotate4(3,3) = 1.0;
-				*/
-				toCamera = /*rotate4 * rotate3 * rotate2 * rotate1 */ trans;
+				
+				toCamera = rotate4 * rotate3 * rotate2 * rotate1 * trans;
 				toCameraInverse = toCamera.inverse();
 				matrixStack = toCamera;
 			}

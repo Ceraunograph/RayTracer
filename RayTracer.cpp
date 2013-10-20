@@ -25,7 +25,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 			bool pointLight;
 
 			(*it).generateLightRay(in.localGeo, &lray, &lcolor, &dist, &pointLight);
-			/*
+			
 			// Check if the light is blocked or not (shadows)
 			if (!primitive.intersectP(lray, thit, in)) {
 				// If not blocked, do shading calculation for this
@@ -34,11 +34,20 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 				Color tempColor;
 				tempColor = shading(in.localGeo, brdf, lray, ray, lcolor, brdf.shine, dist, pointLight);
 				color->add(tempColor);
-				color->add(brdf.ka);
+			} else {
+				//std::cout << "NOOOOO";
 			}
-			*/
-			color->add(brdf.ka);
 		}
+
+		if (lights.size() > 0) {
+			color->add(brdf.ka);
+		} else {
+			//std::cout << "no ambient";
+		}
+
+		color->add(brdf.kr);
+		
+
 		//std::cout << "hello";
 		/*
 		// Handle mirror reflection
@@ -56,10 +65,11 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 	}
 }
 
-void RayTracer::setValue(AggregatePrimitive _ap, int _max_depth, std::vector<Light> _lights) {
+void RayTracer::setValue(AggregatePrimitive _ap, int _max_depth, std::vector<Light> _lights, Color _attenuation) {
 	primitive = _ap;
 	max_depth = _max_depth;
 	lights = _lights;
+	attenuation = _attenuation;
 }
 
 Ray RayTracer::createReflectRay(LocalGeo local, Ray ray) {
@@ -99,18 +109,16 @@ Color RayTracer::shading(LocalGeo local, BRDF brdf, Ray lray, Ray vray, Color lc
 	specular = pow(specular, coeff);
 
 	dist = pow(dist, -2);
-	float intensityR = lcolor.r;
-	float intensityG = lcolor.g;
-	float intensityB = lcolor.b;
+
+	float atten = 1;
+
 	if (pointLight){ 
-		intensityR = intensityR * dist;
-		intensityG = intensityG * dist;
-		intensityB = intensityB * dist;
+		atten = attenuation.r + attenuation.g * dist + attenuation.b * dist * dist ;
 	}
 
-	color.setValue(diffuse * intensityR * brdf.kd.r + specular * intensityR * brdf.ks.r,
-		diffuse * intensityG * brdf.kd.g + specular * intensityG * brdf.ks.g,
-		diffuse * intensityB * brdf.kd.b + specular * intensityB * brdf.ks.b);
+	color.setValue((diffuse * lcolor.r * brdf.kd.r + specular * lcolor.r * brdf.ks.r) / atten,
+		(diffuse * lcolor.g * brdf.kd.g + specular * lcolor.g * brdf.ks.g) / atten,
+		(diffuse * lcolor.b * brdf.kd.b + specular * lcolor.b * brdf.ks.b) / atten);
 
 	return color;
 }

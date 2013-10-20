@@ -1,7 +1,6 @@
 # Test Scene 1 
 # A simple quad viewed from different camera positions
 
-#size 2 2
 size 640 480
 
 # Now specify the camera.  This is what you should implement.

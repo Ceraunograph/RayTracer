@@ -40,15 +40,15 @@ bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 	// set up equation
 	float A = ray.dir.dotProduct(ray.dir); // dot product for vector needed
 	float B = 2.0 * (temp1.dotProduct(ray.dir));
-	float C = temp1.dotProduct(ray.dir) - (radius * radius);
+	float C = temp1.dotProduct(temp1) - (radius * radius);
 
 	// solve quadratic equation
 	float D = B * B - 4 * A * C;
 	if (D < 0.0) {
 		return false;
 	} else {
-		*thit = (sqrt(D) - B) / (A * 2.0);
-		if (*thit < ray.t_min || *thit > ray.t_max) {
+		*thit = (-sqrt(D) - B) / (A * 2.0);
+		if (*thit < ray.t_min || *thit == ray.t_min || *thit > ray.t_max) {
 			return false;
 		} else {
 
@@ -91,24 +91,46 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	Vector tempV;
 	tempV.setValue(v1.x, v1.y, v1.z);
 
-	float D = normal.dotProduct(tempV);
-
 	Vector rayOrigin;
 	rayOrigin.setValue(ray.pos.x, ray.pos.y, ray.pos.z);
-	float num = normal.dotProduct(rayOrigin) + D;
+	rayOrigin.subtract(tempV);
+	float num = normal.dotProduct(rayOrigin);
 	float denom = normal.dotProduct(ray.dir);
 
-	if (denom == 0.0){   // the direction of the ray and the normal of the plane is perpendicular
+	if (abs(denom) < 0.00000001){   // the direction of the ray and the normal of the plane is perpendicular
 		//cout << "perpendicular \n";
 		return false;
 	}
 
 	*thit = - (num / denom);
-	if (*thit < ray.t_min || *thit > ray.t_max){  // hit time outside of boundary
+
+	if (abs(*thit) < 0.0000001) { 
+			*thit = 0;
+	}
+
+	if (*thit < ray.t_min  || *thit > ray.t_max){  // hit time outside of boundary
 		//cout << "outside boundary \n";
 		return false;
 	}
+	/*
+	float xtemp, ytemp, ztemp;
 
+	if (abs(ray.pos.x + ray.dir.x * *thit) < 0.0000001) {
+		xtemp = 0;
+	} else {
+		xtemp = ray.pos.x + ray.dir.x * *thit;
+	}
+	if (abs(ray.pos.y + ray.dir.y * *thit) < 0.0000001) {
+		ytemp = 0;
+	} else {
+		ytemp = ray.pos.y + ray.dir.y * *thit;
+	}
+	if (abs(ray.pos.z + ray.dir.z * *thit) < 0.0000001) {
+		ztemp = 0;
+	} else {
+		ztemp = ray.pos.z + ray.dir.z * *thit;
+	}
+	*/
 	Point hitPoint;
 	hitPoint.setValue(ray.pos.x + ray.dir.x * *thit, ray.pos.y + ray.dir.y * *thit, ray.pos.z + ray.dir.z * *thit);
 	Vector vertexToPoint;

@@ -13,7 +13,7 @@ bool GeometricPrimitive::intersect(Ray& ray, float* thit, Intersection* in) {
 	if (!shape->intersect(transformedRay, thit, &transformedLocal))  
 		return false;
 	in->primitive = this;
-	in->localGeo = worldToObj * transformedLocal;
+	in->localGeo = transformedLocal;
 	return true;
 }
 

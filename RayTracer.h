@@ -17,8 +17,9 @@ public:
 	BRDF brdf;
 	Ray reflectRay;
 	std::vector<Light> lights;
+	Color attenuation;
 
-	void setValue(AggregatePrimitive ap, int max_depth, std::vector<Light> lights);
+	void setValue(AggregatePrimitive ap, int max_depth, std::vector<Light> lights, Color attenuation);
 	void trace(Ray& ray, int depth, Color* color);
 	Ray createReflectRay(LocalGeo local, Ray ray);
 	Color shading(LocalGeo local, BRDF brdf, Ray lray, Ray vray, Color lcolor, float coeff, float dist, bool pointLight);

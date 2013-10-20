@@ -28,7 +28,7 @@ public:
 	Matrix4f toCamera;
 	Matrix4f toCameraInverse;
 	Matrix4f matrixStack;
-	Color kd, ks, ka, kr;
+	Color kd, ks, ka, kr, attenuation;
 	float shininess;
 	float width, height;
 	int maxDepth;

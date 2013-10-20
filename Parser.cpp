@@ -13,9 +13,11 @@ void Parser::loadScene(std::string file) {
 	maxDepth = 0;
 	shininess = 1.0;
 	kr.setValue(0.0, 0.0, 0.0);
-	ka.setValue(0.0, 0.0, 0.0);
+	ka.setValue(0.2, 0.2, 0.2);
 	ks.setValue(0.0, 0.0, 0.0);
 	kd.setValue(0.0, 0.0, 0.0);
+
+	attenuation.setValue(1.0, 0.0, 0.0);
 
 	matrixStack(0,0) = 1.0;
 	matrixStack(0,1) = 0.0;
@@ -130,23 +132,23 @@ void Parser::loadScene(std::string file) {
 				vy.normalize();
 				vz.normalize();
 
-				Matrix4f trans;
-				trans(0,0) = 1.0; 
-				trans(0,1) = 0.0;
-				trans(0,2) = 0.0;
-				trans(0,3) = -lookFromX;
-				trans(1,0) = 0.0;
-				trans(1,1) = 1.0;
-				trans(1,2) = 0.0;
-				trans(1,3) = -lookFromY;
-				trans(2,0) = 0.0;
-				trans(2,1) = 0.0;
-				trans(2,2) = 1.0;
-				trans(2,3) = -lookFromZ;
-				trans(3,0) = 0.0;
-				trans(3,1) = 0.0;
-				trans(3,2) = 0.0;
-				trans(3,3) = 1.0;
+				Matrix4f transMatrix;
+				transMatrix(0,0) = 1.0; 
+				transMatrix(0,1) = 0.0;
+				transMatrix(0,2) = 0.0;
+				transMatrix(0,3) = -lookFromX;
+				transMatrix(1,0) = 0.0;
+				transMatrix(1,1) = 1.0;
+				transMatrix(1,2) = 0.0;
+				transMatrix(1,3) = -lookFromY;
+				transMatrix(2,0) = 0.0;
+				transMatrix(2,1) = 0.0;
+				transMatrix(2,2) = 1.0;
+				transMatrix(2,3) = -lookFromZ;
+				transMatrix(3,0) = 0.0;
+				transMatrix(3,1) = 0.0;
+				transMatrix(3,2) = 0.0;
+				transMatrix(3,3) = 1.0;
 
 				Matrix4f rotateMatrix;
 				rotateMatrix(0,0) = vx.x; 
@@ -166,9 +168,9 @@ void Parser::loadScene(std::string file) {
 				rotateMatrix(3,2) = 0.0;
 				rotateMatrix(3,3) = 1.0;
 
-				toCamera = rotateMatrix * trans;
+				toCamera = rotateMatrix * transMatrix;
 				toCameraInverse = toCamera.inverse();
-				matrixStack = toCamera;
+				matrixStack = toCameraInverse;
 			}
 
 			//sphere x y z radius
@@ -203,7 +205,7 @@ void Parser::loadScene(std::string file) {
 				tInverseMatrix->setValue(inverse);
 
 				GeometricPrimitive* sphere = new GeometricPrimitive;
-				sphere->setValue(*tInverseMatrix, *tMatrix, shape, material);
+				sphere->setValue(*tMatrix, *tInverseMatrix, shape, material);
 
 				primitives.push_back(*sphere);
 
@@ -283,7 +285,7 @@ void Parser::loadScene(std::string file) {
 				tInverseMatrix->setValue(inverse);
 
 				GeometricPrimitive* triangle = new GeometricPrimitive;
-				triangle->setValue(*tInverseMatrix, *tMatrix, shape, material);
+				triangle->setValue(*tMatrix, *tInverseMatrix, shape, material);
 
 				primitives.push_back(*triangle);
 			}
@@ -369,41 +371,41 @@ void Parser::loadScene(std::string file) {
 					rotate(0,2) = 0.0;
 					rotate(0,3) = 0.0;
 					rotate(1,0) = 0.0;
-					rotate(1,1) = cos(angle);
-					rotate(1,2) = -sin(angle);
+					rotate(1,1) = cos(angle * 3.14159265/180.0);
+					rotate(1,2) = -sin(angle * 3.14159265/180.0);
 					rotate(1,3) = 0.0;
 					rotate(2,0) = 0.0;
-					rotate(2,1) = sin(angle);
-					rotate(2,2) = cos(angle);
+					rotate(2,1) = sin(angle * 3.14159265/180.0);
+					rotate(2,2) = cos(angle * 3.14159265/180.0);
 					rotate(2,3) = 0.0;
 					rotate(3,0) = 0.0;
 					rotate(3,1) = 0.0;
 					rotate(3,2) = 0.0;
 					rotate(3,3) = 1.0;
 				} else if (y == 1.0) {
-					rotate(0,0) = cos(angle);
+					rotate(0,0) = cos(angle * 3.14159265/180.0);
 					rotate(0,1) = 0.0;
-					rotate(0,2) = sin(angle);
+					rotate(0,2) = sin(angle * 3.14159265/180.0);
 					rotate(0,3) = 0.0;
 					rotate(1,0) = 0.0;
 					rotate(1,1) = 1.0;
 					rotate(1,2) = 0.0;
 					rotate(1,3) = 0.0;
-					rotate(2,0) = -sin(angle);
+					rotate(2,0) = -sin(angle * 3.14159265/180.0);
 					rotate(2,1) = 0.0;
-					rotate(2,2) = cos(angle);
+					rotate(2,2) = cos(angle * 3.14159265/180.0);
 					rotate(2,3) = 0.0;
 					rotate(3,0) = 0.0;
 					rotate(3,1) = 0.0;
 					rotate(3,2) = 0.0;
 					rotate(3,3) = 1.0;
 				} else if (z == 1.0) {
-					rotate(0,0) = cos(angle);
-					rotate(0,1) = -sin(angle);
+					rotate(0,0) = cos(angle * 3.14159265/180.0);
+					rotate(0,1) = -sin(angle * 3.14159265/180.0);
 					rotate(0,2) = 0.0;
 					rotate(0,3) = 0.0;
-					rotate(1,0) = sin(angle);
-					rotate(1,1) = cos(angle);
+					rotate(1,0) = sin(angle * 3.14159265/180.0);
+					rotate(1,1) = cos(angle * 3.14159265/180.0);
 					rotate(1,2) = 0.0;
 					rotate(1,3) = 0.0;
 					rotate(2,0) = 0.0;
@@ -463,22 +465,8 @@ void Parser::loadScene(std::string file) {
 			//  discussed above).
 			else if(!splitline[0].compare("popTransform")) {
 				//mst.pop();
-				matrixStack(0,0) = 1;
-				matrixStack(0,1) = 0;
-				matrixStack(0,2) = 0;
-				matrixStack(0,3) = 0;
-				matrixStack(1,0) = 0;
-				matrixStack(1,1) = 1;
-				matrixStack(1,2) = 0;
-				matrixStack(1,3) = 0;
-				matrixStack(2,0) = 0;
-				matrixStack(2,1) = 0;
-				matrixStack(2,2) = 1;
-				matrixStack(2,3) = 0;
-				matrixStack(3,0) = 0;
-				matrixStack(3,1) = 0;
-				matrixStack(3,2) = 0;
-				matrixStack(3,3) = 1;
+				Matrix4f camera = toCameraInverse;
+				matrixStack = camera;
 
 				//ka.setValue(0, 0, 0);
 				//kd.setValue(0, 0, 0);
@@ -538,6 +526,7 @@ void Parser::loadScene(std::string file) {
 				// const: atof(splitline[1].c_str())
 				// linear: atof(splitline[2].c_str())
 				// quadratic: atof(splitline[3].c_str())
+				attenuation.setValue(atof(splitline[1].c_str()),atof(splitline[2].c_str()),atof(splitline[3].c_str()));
 			}
 			//ambient r g b
 			//  The global ambient color to be added for each object 

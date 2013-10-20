@@ -32,7 +32,7 @@ bool AggregatePrimitive::intersectP(Ray& ray, float thitOne, Intersection inOne)
 	float* thit = new float;
 	Intersection* in = new Intersection;
 	if (intersect(ray, thit, in)){
-		if (in->localGeo.pos.x == inOne.localGeo.pos.x && in->localGeo.pos.y == inOne.localGeo.pos.y && in->localGeo.pos.z == inOne.localGeo.pos.z){    
+		if (in->primitive == inOne.primitive){    
 			return false;
 		}else{
 			return true;
@@ -41,6 +41,7 @@ bool AggregatePrimitive::intersectP(Ray& ray, float thitOne, Intersection inOne)
 		return false;
 	}
 }
+
 
 void AggregatePrimitive::getBRDF(LocalGeo& local, BRDF* brdf){
 	exit(1); // this method should never be called

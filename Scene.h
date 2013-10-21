@@ -22,6 +22,7 @@ public:
 	Color color;
 	Film film;
 	AggregatePrimitive ap;
+
 	void render();
 	void setValue(Parser* p);
 };

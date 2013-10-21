@@ -14,8 +14,8 @@ class Vector;
 
 class AggregatePrimitive : public Primitive {
 public:
-	std::vector<GeometricPrimitive, Eigen::aligned_allocator<GeometricPrimitive>> primitiveList;
-	void setValue(std::vector<GeometricPrimitive, Eigen::aligned_allocator<GeometricPrimitive>> _list);
+	std::vector<GeometricPrimitive*, Eigen::aligned_allocator<GeometricPrimitive>> primitiveList;
+	void setValue(std::vector<GeometricPrimitive*, Eigen::aligned_allocator<GeometricPrimitive>> _list);
 	bool intersect(Ray& ray, float* thit, Intersection* in);
 	bool intersectP(Ray& ray) ;
 	void getBRDF(LocalGeo& local, BRDF* brdf);

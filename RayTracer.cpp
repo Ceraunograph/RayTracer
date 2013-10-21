@@ -18,13 +18,13 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 		in.primitive->getBRDF(in.localGeo, &brdf);
 
 		// There is an intersection, loop through all light source
-		for (std::vector<Light>::iterator it = lights.begin(); it != lights.end(); it++){
+		for (std::vector<Light*>::iterator it = lights.begin(); it != lights.end(); it++){
 			Ray* lray = new Ray;
 			Color* lcolor = new Color;
 			float dist;
 			bool pointLight;
 
-			(*it).generateLightRay(in.localGeo, lray, lcolor, &dist, &pointLight);
+			(**it).generateLightRay(in.localGeo, lray, lcolor, &dist, &pointLight);
 			
 			// Check if the light is blocked or not (shadows)
 			if (!primitive.intersectP(*lray)) {
@@ -32,9 +32,6 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 			// light source
 			color->add(shading(in, brdf, *lray, ray, *lcolor, brdf.shine, dist, pointLight));
 			}
-			/*
-			color->add(shading(in, brdf, *lray, ray, *lcolor, brdf.shine, dist, pointLight));
-			*/
 		}
 		if (lights.size() > 0) { 
 			color->add(brdf.ka);
@@ -61,7 +58,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 	}
 }
 
-void RayTracer::setValue(AggregatePrimitive _ap, int _max_depth, std::vector<Light> _lights, Color _attenuation) {
+void RayTracer::setValue(AggregatePrimitive _ap, int _max_depth, std::vector<Light*> _lights, Color _attenuation) {
 	primitive = _ap;
 	max_depth = _max_depth;
 	lights = _lights;
@@ -119,7 +116,7 @@ Color RayTracer::shading(Intersection in, BRDF brdf, Ray lray, Ray vray, Color l
 	tempVect.setValue(-vray.dir.x, -vray.dir.y, -vray.dir.z);
 	tempRay.setValue(vray.pos, tempVect, vray.t_min, vray.t_max);
 
-	tempRay = in.primitive->objToWorld * tempRay;
+	tempRay = in.primitive->toCameraInverse * tempRay;
 	tempRay.dir.normalize();
 
 	float specular = reflect.dotProduct(tempRay.dir);

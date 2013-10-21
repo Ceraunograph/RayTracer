@@ -23,11 +23,11 @@ class Parser {
 public:
 	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-	std::vector<GeometricPrimitive, Eigen::aligned_allocator<GeometricPrimitive>> primitives;
+	std::vector<GeometricPrimitive*, Eigen::aligned_allocator<GeometricPrimitive>> primitives;
 	std::vector<Matrix4f, Eigen::aligned_allocator<Matrix4f>> matrixStack;
-	std::vector<Point> vertices;
-	std::vector<Point> verticesNormal;
-	std::vector<Light> lights;
+	std::vector<Point*> vertices;
+	std::vector<Point*> verticesNormal;
+	std::vector<Light*> lights;
 	Matrix4f toCamera;
 	Matrix4f toCameraInverse;
 	Matrix4f idenMatrix;

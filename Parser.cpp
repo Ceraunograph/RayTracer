@@ -20,9 +20,9 @@ void Parser::loadScene(std::string file) {
 	attenuation.setValue(1.0, 0.0, 0.0);
 
 	idenMatrix << 1, 0, 0, 0,
-				  0, 1, 0, 0,
-				  0, 0, 1, 0, 
-				  0, 0, 0, 1;
+		0, 1, 0, 0,
+		0, 0, 1, 0, 
+		0, 0, 0, 1;
 
 	matrixStack.push_back(idenMatrix);
 
@@ -187,18 +187,23 @@ void Parser::loadScene(std::string file) {
 				material->setValue(*brdf);
 
 				Matrix4f inverse = matrixStack.back().inverse();
-				Matrix4f toWorld = matrixStack.back() * toCameraInverse;
+				Matrix4f toWorld = matrixStack.back();
 
 				Transformation* tMatrix = new Transformation;
 				Transformation* tInverseMatrix = new Transformation;
+				Transformation* tCamera = new Transformation;
+				Transformation* tCameraInverse = new Transformation;
+
+				tCamera->setValue(toCamera);
+				tCameraInverse->setValue(toCameraInverse);
 
 				tMatrix->setValue(toWorld);
 				tInverseMatrix->setValue(inverse);
 
 				GeometricPrimitive* sphere = new GeometricPrimitive;
-				sphere->setValue(*tMatrix, *tInverseMatrix, shape, material);
+				sphere->setValue(*tMatrix, *tInverseMatrix, *tCamera, *tCameraInverse, shape, material);
 
-				primitives.push_back(*sphere);
+				primitives.push_back(sphere);
 
 			}
 			//maxverts number
@@ -225,7 +230,7 @@ void Parser::loadScene(std::string file) {
 				// Create a new vertex with these 3 values, store in some array
 				Point* p = new Point;
 				p->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
-				vertices.push_back(*p);
+				vertices.push_back(p);
 			}
 			//vertexnormal x y z nx ny nz
 			//  Similar to the above, but deﬁne a surface normal with each vertex.
@@ -242,7 +247,7 @@ void Parser::loadScene(std::string file) {
 
 				Point* p = new Point;
 				p->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
-				verticesNormal.push_back(*p);
+				verticesNormal.push_back(p);
 
 			}
 			//tri v1 v2 v3
@@ -259,7 +264,7 @@ void Parser::loadScene(std::string file) {
 				//   Store current property values
 				//   Store current top of matrix stack
 				Shape* shape = new Shape;
-				shape->setValue(0, 0, 0, 0, vertices[atof(splitline[1].c_str())], vertices[atof(splitline[2].c_str())], vertices[atof(splitline[3].c_str())], 1.0);
+				shape->setValue(0, 0, 0, 0, *vertices[atof(splitline[1].c_str())], *vertices[atof(splitline[2].c_str())], *vertices[atof(splitline[3].c_str())], 1.0);
 
 				BRDF* brdf = new BRDF;
 				brdf->setValue(kd, ks, ka, kr, shininess);
@@ -267,19 +272,24 @@ void Parser::loadScene(std::string file) {
 				Material* material = new Material;
 				material->setValue(*brdf);
 
-				Matrix4f inverse = matrixStack.back().inverse();
-				Matrix4f toWorld = matrixStack.back() * toCameraInverse;
-
+				Matrix4f toWorld = matrixStack.back();
 				Transformation* tMatrix = new Transformation;
-				Transformation* tInverseMatrix = new Transformation;
-
 				tMatrix->setValue(toWorld);
+
+				Matrix4f inverse = matrixStack.back().inverse();
+				Transformation* tInverseMatrix = new Transformation;
 				tInverseMatrix->setValue(inverse);
 
-				GeometricPrimitive* triangle = new GeometricPrimitive;
-				triangle->setValue(*tMatrix, *tInverseMatrix, shape, material);
+				Transformation* tCamera = new Transformation;
+				Transformation* tCameraInverse = new Transformation;
 
-				primitives.push_back(*triangle);
+				tCamera->setValue(toCamera);
+				tCameraInverse->setValue(toCameraInverse);
+
+				GeometricPrimitive* triangle = new GeometricPrimitive;
+				triangle->setValue(*tMatrix, *tInverseMatrix, *tCamera, *tCameraInverse, shape, material);
+
+				primitives.push_back(triangle);
 			}
 			//trinormal v1 v2 v3
 			//  Same as above but for vertices speciﬁed with normals.
@@ -296,7 +306,7 @@ void Parser::loadScene(std::string file) {
 				//   Store current property values
 				//   Store current top of matrix stack
 				Shape* shape = new Shape;
-				shape->setValue(NULL, NULL, NULL, NULL, verticesNormal[atof(splitline[1].c_str())], verticesNormal[atof(splitline[2].c_str())], verticesNormal[atof(splitline[3].c_str())], 1.0);
+				shape->setValue(NULL, NULL, NULL, NULL, *verticesNormal[atof(splitline[1].c_str())], *verticesNormal[atof(splitline[2].c_str())], *verticesNormal[atof(splitline[3].c_str())], 1.0);
 
 				BRDF* brdf = new BRDF;
 				brdf->setValue(kd, ks, ka, kr, shininess);
@@ -305,7 +315,7 @@ void Parser::loadScene(std::string file) {
 				material->setValue(*brdf);
 
 				Matrix4f inverse = matrixStack.back().inverse();
-				Matrix4f toWorld = matrixStack.back() * toCameraInverse;
+				Matrix4f toWorld = matrixStack.back();
 
 				Transformation* tMatrix = new Transformation;
 				Transformation* tInverseMatrix = new Transformation;
@@ -313,10 +323,16 @@ void Parser::loadScene(std::string file) {
 				tMatrix->setValue(toWorld);
 				tInverseMatrix->setValue(inverse);
 
-				GeometricPrimitive* triangle = new GeometricPrimitive;
-				triangle->setValue(*tMatrix, *tInverseMatrix, shape, material);
+				Transformation* tCamera = new Transformation;
+				Transformation* tCameraInverse = new Transformation;
 
-				primitives.push_back(*triangle);
+				tCamera->setValue(toCamera);
+				tCameraInverse->setValue(toCameraInverse);
+
+				GeometricPrimitive* triangle = new GeometricPrimitive;
+				triangle->setValue(*tMatrix, *tInverseMatrix, *tCamera, *tCameraInverse, shape, material);
+
+				primitives.push_back(triangle);
 			}
 
 			//translate x y z
@@ -364,21 +380,21 @@ void Parser::loadScene(std::string file) {
 					rotate(0,2) = 0.0;
 					rotate(0,3) = 0.0;
 					rotate(1,0) = 0.0;
-					rotate(1,1) = cos(angle * 3.14159265/180.0);
+					rotate(1,1) =  cos(angle * 3.14159265/180.0);
 					rotate(1,2) = -sin(angle * 3.14159265/180.0);
 					rotate(1,3) = 0.0;
 					rotate(2,0) = 0.0;
-					rotate(2,1) = sin(angle * 3.14159265/180.0);
-					rotate(2,2) = cos(angle * 3.14159265/180.0);
+					rotate(2,1) =  sin(angle * 3.14159265/180.0);
+					rotate(2,2) =  cos(angle * 3.14159265/180.0);
 					rotate(2,3) = 0.0;
 					rotate(3,0) = 0.0;
 					rotate(3,1) = 0.0;
 					rotate(3,2) = 0.0;
 					rotate(3,3) = 1.0;
 				} else if (y == 1.0) {
-					rotate(0,0) = cos(angle * 3.14159265/180.0);
+					rotate(0,0) =  cos(angle * 3.14159265/180.0);
 					rotate(0,1) = 0.0;
-					rotate(0,2) = sin(angle * 3.14159265/180.0);
+					rotate(0,2) =  sin(angle * 3.14159265/180.0);
 					rotate(0,3) = 0.0;
 					rotate(1,0) = 0.0;
 					rotate(1,1) = 1.0;
@@ -386,19 +402,19 @@ void Parser::loadScene(std::string file) {
 					rotate(1,3) = 0.0;
 					rotate(2,0) = -sin(angle * 3.14159265/180.0);
 					rotate(2,1) = 0.0;
-					rotate(2,2) = cos(angle * 3.14159265/180.0);
+					rotate(2,2) =  cos(angle * 3.14159265/180.0);
 					rotate(2,3) = 0.0;
 					rotate(3,0) = 0.0;
 					rotate(3,1) = 0.0;
 					rotate(3,2) = 0.0;
 					rotate(3,3) = 1.0;
 				} else if (z == 1.0) {
-					rotate(0,0) = cos(angle * 3.14159265/180.0);
+					rotate(0,0) =  cos(angle * 3.14159265/180.0);
 					rotate(0,1) = -sin(angle * 3.14159265/180.0);
 					rotate(0,2) = 0.0;
 					rotate(0,3) = 0.0;
-					rotate(1,0) = sin(angle * 3.14159265/180.0);
-					rotate(1,1) = cos(angle * 3.14159265/180.0);
+					rotate(1,0) =  sin(angle * 3.14159265/180.0);
+					rotate(1,1) =  cos(angle * 3.14159265/180.0);
 					rotate(1,2) = 0.0;
 					rotate(1,3) = 0.0;
 					rotate(2,0) = 0.0;
@@ -478,7 +494,7 @@ void Parser::loadScene(std::string file) {
 				point.setValue(1,1,1);
 
 				light->setValue(point, *dir, true, false, *color);
-				lights.push_back(*light);
+				lights.push_back(light);
 			}
 			//point x y z r g b
 			//  The location of a point source and the color, as in OpenGL.
@@ -499,7 +515,7 @@ void Parser::loadScene(std::string file) {
 				vect.setValue(1,1,1);
 
 				light->setValue(*pos, vect, false, true, *color);
-				lights.push_back(*light);
+				lights.push_back(light);
 
 			}
 			//attenuation const linear quadratic

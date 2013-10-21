@@ -28,13 +28,13 @@ Vector Transformation::operator*(Vector v) {
 }	
 
 Normal Transformation::operator*(Normal n) {
-	Normal new_normal;
+	Normal* new_normal = new Normal;
 	float x, y, z;
 	x = n.x * minvt(0,0) + n.y * minvt(0,1) + n.z * minvt(0,2);
 	y = n.x * minvt(1,0) + n.y * minvt(1,1) + n.z * minvt(1,2);
 	z = n.x * minvt(2,0) + n.y * minvt(2,1) + n.z * minvt(2,2);
-	new_normal.setValue(x,y,z);
-	return new_normal;
+	new_normal->setValue(x,y,z);
+	return *new_normal;
 }
 
 

@@ -468,16 +468,16 @@ void Parser::loadScene(std::string file) {
 				// g: atof(splitline[5].c_str()),
 				// b: atof(splitline[6].c_str()));
 				// add light to scene...
-				Vector dir;
-				dir.setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
-				Color color;
-				color.setValue(atof(splitline[4].c_str()), atof(splitline[5].c_str()), atof(splitline[6].c_str()));
+				Vector* dir = new Vector;
+				dir->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
+				Color* color = new Color;
+				color->setValue(atof(splitline[4].c_str()), atof(splitline[5].c_str()), atof(splitline[6].c_str()));
 				Light* light = new Light;
 
 				Point point;
 				point.setValue(1,1,1);
 
-				light->setValue(point, dir, true, false, color);
+				light->setValue(point, *dir, true, false, *color);
 				lights.push_back(*light);
 			}
 			//point x y z r g b
@@ -490,15 +490,15 @@ void Parser::loadScene(std::string file) {
 				// g: atof(splitline[5].c_str()),
 				// b: atof(splitline[6].c_str()));
 				// add light to scene...
-				Point pos;
-				pos.setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
-				Color color;
-				color.setValue(atof(splitline[4].c_str()), atof(splitline[5].c_str()), atof(splitline[6].c_str()));
+				Point* pos = new Point;
+				pos->setValue(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
+				Color* color = new Color;
+				color->setValue(atof(splitline[4].c_str()), atof(splitline[5].c_str()), atof(splitline[6].c_str()));
 				Light* light = new Light;
 				Vector vect;
 				vect.setValue(1,1,1);
 
-				light->setValue(pos, vect, false, true, color);
+				light->setValue(*pos, vect, false, true, *color);
 				lights.push_back(*light);
 
 			}

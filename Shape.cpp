@@ -12,19 +12,15 @@ void Shape::setValue(float _x, float _y, float _z, float _radius, Point _v1, Poi
 		y = _y;
 		z = _z;
 		radius = _radius;
-
 		if (abs(x) < 0.0000001) {
 			x = 0;
 		}
-
 		if (abs(y) < 0.0000001) {
 			y = 0;
 		}
-
 		if (abs(z) < 0.0000001) {
 			z = 0;
 		}
-
 		center.setValue(x, y, z);
 
 	} else if (shape == 1) {
@@ -122,29 +118,10 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 		//cout << "outside boundary \n";
 		return false;
 	}
-	/*
-	float xtemp, ytemp, ztemp;
 
-	if (abs(ray.pos.x + ray.dir.x * *thit) < 0.0000001) {
-	xtemp = 0;
-	} else {
-	xtemp = ray.pos.x + ray.dir.x * *thit;
-	}
-	if (abs(ray.pos.y + ray.dir.y * *thit) < 0.0000001) {
-	ytemp = 0;
-	} else {
-	ytemp = ray.pos.y + ray.dir.y * *thit;
-	}
-	if (abs(ray.pos.z + ray.dir.z * *thit) < 0.0000001) {
-	ztemp = 0;
-	} else {
-	ztemp = ray.pos.z + ray.dir.z * *thit;
-	}
-	*/
 	Point hitPoint;
 	hitPoint.setValue(ray.pos.x + ray.dir.x * *thit, ray.pos.y + ray.dir.y * *thit, ray.pos.z + ray.dir.z * *thit);
 	Vector vertexToPoint;
-
 
 
 	vertexToPoint.createFromPoints(v1, hitPoint);
@@ -182,7 +159,7 @@ bool Shape::intersect(Ray& ray, float* thit, LocalGeo* local){
 
 bool Shape::intersectP(Ray& ray){
 	float *thit;
-	LocalGeo *local;
+	LocalGeo* local;
 	return intersect(ray, thit, local);
 }
 

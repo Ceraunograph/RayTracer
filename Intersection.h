@@ -5,13 +5,13 @@
 #include "Primitive.h"
 
 class LocalGeo;
-class Primitive;
+class GeometricPrimitive;
 
 class Intersection {
 public:
 	LocalGeo localGeo;
-	Primitive* primitive;
-    void setValue(LocalGeo _localGeo, Primitive* _primitive);
+	GeometricPrimitive* primitive;
+    void setValue(LocalGeo _localGeo, GeometricPrimitive* _primitive);
 };
 
 #endif

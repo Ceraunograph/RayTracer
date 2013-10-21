@@ -158,10 +158,103 @@ bool Shape::intersect(Ray& ray, float* thit, LocalGeo* local){
 }
 
 bool Shape::intersectP(Ray& ray){
-	float *thit;
-	LocalGeo* local;
-	return intersect(ray, thit, local);
+	if (sphere == true){
+		return intersectPSphere(ray);
+	}else if (triangle == true){
+		return intersectPTriangle(ray);
+	}else{
+		exit(1);
+	}
 }
 
 
 
+bool Shape::intersectPSphere(Ray& ray){
+	Vector temp1;
+	temp1.createFromPoints(center, ray.pos);
+	// set up equation
+	float A = ray.dir.dotProduct(ray.dir);
+	float B = 2.0 * (temp1.dotProduct(ray.dir));
+	float C = temp1.dotProduct(temp1) - (radius * radius);
+	// solve for solutions
+	float D = B * B - 4 * A * C;
+	float thit;
+
+	if (D < 0.0) {
+		return false;
+	} else {
+		thit = (-sqrt(D) - B) / (A * 2.0);
+		if (thit < ray.t_min || thit == ray.t_min || thit > ray.t_max) return false;
+	}
+
+	return true;
+
+}
+
+bool Shape::intersectPTriangle(Ray& ray){
+
+	Vector edge21;
+	Vector edge32;
+	Vector edge13;
+	Vector edge31;
+	Vector edge12;
+	Vector edge23;
+
+	edge21.setValue(v2.x-v1.x, v2.y-v1.y, v2.z-v1.z);   // one edge of the triangle
+	edge32.setValue(v3.x-v2.x, v3.y-v2.y, v3.z-v2.z);   // another edge of the triangle     (counterclockwise fashion)
+	edge13.setValue(v1.x-v3.x, v1.y-v3.y, v1.z-v3.z);   // third edge of the triangle
+	edge31.setValue(-edge13.x, -edge13.y, -edge13.z);
+	edge12.setValue(-edge21.x, -edge21.y, -edge21.z);
+	edge23.setValue(-edge32.x, -edge32.y, -edge32.z);
+	Vector normal = edge23.crossProduct(edge31);    // normal of the triangle's plane
+
+	float A = normal.x;            // equation of the plane = Ax + By + Cz + D = 0
+	float B = normal.y;
+	float C = normal.z;
+
+	Vector tempV;
+	tempV.setValue(v1.x, v1.y, v1.z);
+
+	Vector rayOrigin;
+	rayOrigin.setValue(ray.pos.x, ray.pos.y, ray.pos.z);
+	rayOrigin.subtract(tempV);
+	float num = normal.dotProduct(rayOrigin);
+	float denom = normal.dotProduct(ray.dir);
+
+	if (abs(denom) < 0.00000001){   // the direction of the ray and the normal of the plane is perpendicular
+		//cout << "perpendicular \n";
+		return false;
+	}
+
+	float thit = - (num / denom);
+
+	if (abs(thit) < 0.0000001) { 
+		thit = 0;
+	}
+
+	if (thit < ray.t_min  || thit > ray.t_max){  // hit time outside of boundary
+		//cout << "outside boundary \n";
+		return false;
+	}
+
+	Point hitPoint;
+	hitPoint.setValue(ray.pos.x + ray.dir.x * thit, ray.pos.y + ray.dir.y * thit, ray.pos.z + ray.dir.z * thit);
+	Vector vertexToPoint;
+
+
+	vertexToPoint.createFromPoints(v1, hitPoint);
+	float leftOfEdge1 = (edge21.crossProduct(edge31)).dotProduct(edge21.crossProduct(vertexToPoint));
+	vertexToPoint.createFromPoints(v2, hitPoint);
+	float leftOfEdge2 = (edge32.crossProduct(edge12)).dotProduct(edge32.crossProduct(vertexToPoint));
+	vertexToPoint.createFromPoints(v3, hitPoint); 
+	float leftOfEdge3 = (edge13.crossProduct(edge23)).dotProduct(edge13.crossProduct(vertexToPoint));
+
+	//cout << leftOfEdge1 << "and" << leftOfEdge2 << "and" << leftOfEdge3;
+
+	if (leftOfEdge1 < 0.0 || leftOfEdge2 < 0.0 || leftOfEdge3 < 0.0){ // hit point not inside the triangle 
+		//cout << "not inside the triangle \n";
+		return false;	
+	}   
+
+	return true;
+}

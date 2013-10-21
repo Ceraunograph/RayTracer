@@ -9,7 +9,7 @@ void Transformation::setValue(Matrix4f& _m) {
 
 Point Transformation::operator*(Point p) {
 	Point new_point;
-	float x, y, z, w;
+	float x, y, z;
 	x = p.x * m(0,0) + p.y * m(0,1) + p.z * m(0,2) + m(0,3);
 	y = p.x * m(1,0) + p.y * m(1,1) + p.z * m(1,2) + m(1,3);
 	z = p.x * m(2,0) + p.y * m(2,1) + p.z * m(2,2) + m(2,3);

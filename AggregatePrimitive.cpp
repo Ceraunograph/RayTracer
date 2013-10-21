@@ -28,18 +28,12 @@ bool AggregatePrimitive::intersect(Ray& ray, float* thit, Intersection* in){
 	}
 }
 
-bool AggregatePrimitive::intersectP(Ray& ray, float thitOne, Intersection inOne) {
-	float* thit = new float;
-	Intersection* in = new Intersection;
-	if (intersect(ray, thit, in)){
-		if (in->primitive == inOne.primitive){    
-			return false;
-		}else{
+bool AggregatePrimitive::intersectP(Ray& ray) {
+	for (std::vector<GeometricPrimitive, Eigen::aligned_allocator<GeometricPrimitive>>::iterator it = primitiveList.begin(); it != primitiveList.end(); it++){
+		if ((*it).intersectP(ray))
 			return true;
-		}
-	}else{
-		return false;
 	}
+	return false;
 }
 
 

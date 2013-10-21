@@ -32,10 +32,10 @@ void Camera::generateRay(Sample& sample, Ray* ray) {
 	Point* samplePos = new Point;
 	samplePos->setValue(newx,newy,-1.0);
 
-	Vector direction;
-	direction.createFromPoints(*origin, *samplePos);
+	Vector* direction = new Vector;
+	direction->createFromPoints(*origin, *samplePos);
 	//direction.normalize();
 
-	ray->setValue(*origin, direction, 1.0, std::numeric_limits<float>::max());
+	ray->setValue(*origin, *direction, 1.0, std::numeric_limits<float>::max());
 	
 }

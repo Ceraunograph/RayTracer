@@ -8,18 +8,18 @@ void GeometricPrimitive::setValue(Transformation& _objToWorld, Transformation& _
 }
 
 bool GeometricPrimitive::intersect(Ray& ray, float* thit, Intersection* in) {
-	Ray transformedRay = objToWorld * ray;
 	LocalGeo transformedLocal;                                 
-	if (!shape->intersect(transformedRay, thit, &transformedLocal))  
+	if (!shape->intersect(objToWorld * ray, thit, &transformedLocal))  
 		return false;
 	in->primitive = this;
 	in->localGeo = worldToObj * transformedLocal;
 	return true;
 }
 
-bool GeometricPrimitive::intersectP(Ray& ray) {
-	Ray transformedRay = worldToObj * ray;
-	return shape->intersectP(transformedRay);
+bool GeometricPrimitive::intersectP(Ray& ray) {                            
+	if (!shape->intersectP(ray))  
+		return false;
+	return true;
 }
 
 void GeometricPrimitive::getBRDF(LocalGeo& local, BRDF* brdf) {

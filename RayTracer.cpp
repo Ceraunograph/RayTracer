@@ -117,10 +117,14 @@ Color RayTracer::shading(Intersection in, BRDF brdf, Ray lray, Ray vray, Color l
 	Vector reflect;
 	float scalar = 2.0 * lray.dir.dotProduct(normal_vector);
 
+	if (scalar < 0.0) {
+		scalar = 0.0;
+	}
+
 	reflect.setValue(in.localGeo.normal.x * scalar, in.localGeo.normal.y * scalar, in.localGeo.normal.z * scalar);
 	reflect.setValue(reflect.x - lray.dir.x, reflect.y - lray.dir.y, reflect.z - lray.dir.z);
 	reflect.normalize();
-	/*
+	
 	Ray tempRay;
 	Vector tempVect;
 	tempVect.setValue(-vray.dir.x, -vray.dir.y, -vray.dir.z);
@@ -128,8 +132,8 @@ Color RayTracer::shading(Intersection in, BRDF brdf, Ray lray, Ray vray, Color l
 
 	tempRay = in.primitive->objToWorld * tempRay;
 	tempRay.dir.normalize();
-	*/
-	float specular = - reflect.dotProduct(vray.dir);
+	
+	float specular = reflect.dotProduct(tempRay.dir);
 
 	if (specular < 0) {
 		specular = 0;

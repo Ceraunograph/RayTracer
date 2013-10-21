@@ -31,7 +31,8 @@ void Light::generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor, float* d
 		*dist = sqrt(pow(lray->dir.x,2.0) + pow(lray->dir.y,2.0) + pow(lray->dir.z,2.0));
 		lray->dir.normalize();
 		lray->t_min = 0.0;
-		lray->t_max = *dist;
+
+		lray->t_max = (source.x - local.pos.x)/lray->dir.x;
 
 		lcolor->setValue(color.r, color.g, color.b);
 	}else{

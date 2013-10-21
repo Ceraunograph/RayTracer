@@ -13,30 +13,20 @@ void Parser::loadScene(std::string file) {
 	maxDepth = 0;
 	shininess = 1.0;
 	kr.setValue(0.0, 0.0, 0.0);
-	ka.setValue(0.2, 0.2, 0.2);
+	ka.setValue(0.0, 0.0, 0.0);
 	ks.setValue(0.0, 0.0, 0.0);
 	kd.setValue(0.0, 0.0, 0.0);
 
 	attenuation.setValue(1.0, 0.0, 0.0);
 
-	matrixStack(0,0) = 1.0;
-	matrixStack(0,1) = 0.0;
-	matrixStack(0,2) = 0.0;
-	matrixStack(0,3) = 0.0;
-	matrixStack(1,0) = 0.0;
-	matrixStack(1,1) = 1.0;
-	matrixStack(1,2) = 0.0;
-	matrixStack(1,3) = 0.0;
-	matrixStack(2,0) = 0.0;
-	matrixStack(2,1) = 0.0;
-	matrixStack(2,2) = 1.0;
-	matrixStack(2,3) = 0.0;
-	matrixStack(3,0) = 0.0;
-	matrixStack(3,1) = 0.0;
-	matrixStack(3,2) = 0.0;
-	matrixStack(3,3) = 1.0;
+	idenMatrix << 1, 0, 0, 0,
+				  0, 1, 0, 0,
+				  0, 0, 1, 0, 
+				  0, 0, 0, 1;
 
-	std::string fname = "output.bmp";
+	matrixStack.push_back(idenMatrix);
+
+	filename = "output.jpg";
 
 	std::ifstream inpfile(file.c_str());
 	if(!inpfile.is_open()) {
@@ -83,7 +73,7 @@ void Parser::loadScene(std::string file) {
 			//output filename
 			//  output file to write image to 
 			else if(!splitline[0].compare("output")) {
-				fname = splitline[1];
+				filename = splitline[1];
 			}
 
 			//camera lookfromx lookfromy lookfromz lookatx lookaty lookatz upx upy upz fov
@@ -170,7 +160,7 @@ void Parser::loadScene(std::string file) {
 
 				toCamera = rotateMatrix * transMatrix;
 				toCameraInverse = toCamera.inverse();
-				matrixStack = toCameraInverse;
+				//matrixStack.push_back(toCameraInverse);
 			}
 
 			//sphere x y z radius
@@ -196,12 +186,13 @@ void Parser::loadScene(std::string file) {
 				Material* material = new Material;
 				material->setValue(*brdf);
 
-				Matrix4f inverse = matrixStack.inverse();
+				Matrix4f inverse = matrixStack.back().inverse();
+				Matrix4f toWorld = matrixStack.back() * toCameraInverse;
 
 				Transformation* tMatrix = new Transformation;
 				Transformation* tInverseMatrix = new Transformation;
 
-				tMatrix->setValue(matrixStack);
+				tMatrix->setValue(toWorld);
 				tInverseMatrix->setValue(inverse);
 
 				GeometricPrimitive* sphere = new GeometricPrimitive;
@@ -276,12 +267,13 @@ void Parser::loadScene(std::string file) {
 				Material* material = new Material;
 				material->setValue(*brdf);
 
-				Matrix4f inverse = matrixStack.inverse();
+				Matrix4f inverse = matrixStack.back().inverse();
+				Matrix4f toWorld = matrixStack.back() * toCameraInverse;
 
 				Transformation* tMatrix = new Transformation;
 				Transformation* tInverseMatrix = new Transformation;
 
-				tMatrix->setValue(matrixStack);
+				tMatrix->setValue(toWorld);
 				tInverseMatrix->setValue(inverse);
 
 				GeometricPrimitive* triangle = new GeometricPrimitive;
@@ -312,16 +304,17 @@ void Parser::loadScene(std::string file) {
 				Material* material = new Material;
 				material->setValue(*brdf);
 
-				Matrix4f inverse = matrixStack.inverse();
+				Matrix4f inverse = matrixStack.back().inverse();
+				Matrix4f toWorld = matrixStack.back() * toCameraInverse;
 
 				Transformation* tMatrix = new Transformation;
 				Transformation* tInverseMatrix = new Transformation;
 
-				tMatrix->setValue(matrixStack);
+				tMatrix->setValue(toWorld);
 				tInverseMatrix->setValue(inverse);
 
 				GeometricPrimitive* triangle = new GeometricPrimitive;
-				triangle->setValue(*tInverseMatrix, *tMatrix, shape, material);
+				triangle->setValue(*tMatrix, *tInverseMatrix, shape, material);
 
 				primitives.push_back(*triangle);
 			}
@@ -350,7 +343,7 @@ void Parser::loadScene(std::string file) {
 				translate(3,1) = 0.0;
 				translate(3,2) = 0.0;
 				translate(3,3) = 1.0;
-				matrixStack = translate * matrixStack;
+				matrixStack.back() = translate.inverse() * matrixStack.back();
 			}
 			//rotate x y z angle
 			//  Rotate by angle (in degrees) about the given axis as in OpenGL.
@@ -418,7 +411,7 @@ void Parser::loadScene(std::string file) {
 					rotate(3,3) = 1.0;
 				} else {
 				}
-				matrixStack = rotate * matrixStack;
+				matrixStack.back() =  rotate.inverse() * matrixStack.back();
 			}
 			//scale x y z
 			//  Scale by the corresponding amount in each axis (a non-uniform scaling).
@@ -444,9 +437,7 @@ void Parser::loadScene(std::string file) {
 				scale(3,1) = 0.0;
 				scale(3,2) = 0.0;
 				scale(3,3) = 1.0;
-				matrixStack = scale * matrixStack;
-
-
+				matrixStack.back() =  scale.inverse() * matrixStack.back();
 			}
 			//pushTransform
 			//  Push the current modeling transform on the stack as in OpenGL. 
@@ -454,8 +445,7 @@ void Parser::loadScene(std::string file) {
 			//   the camera to preserve the “identity” transformation.
 			else if(!splitline[0].compare("pushTransform")) {
 				//mst.push();
-				Matrix4f camera = toCamera;
-				matrixStack = camera;
+				matrixStack.push_back(matrixStack.back());
 			}
 			//popTransform
 			//  Pop the current transform from the stack as in OpenGL. 
@@ -465,14 +455,7 @@ void Parser::loadScene(std::string file) {
 			//  discussed above).
 			else if(!splitline[0].compare("popTransform")) {
 				//mst.pop();
-				Matrix4f camera = toCameraInverse;
-				matrixStack = camera;
-
-				//ka.setValue(0, 0, 0);
-				//kd.setValue(0, 0, 0);
-				//kr.setValue(0, 0, 0);
-				//ks.setValue(0, 0, 0);
-				//shininess = 1;
+				matrixStack.pop_back();
 			}
 
 			//directional x y z r g b

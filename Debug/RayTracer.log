@@ -1,13 +1,62 @@
-﻿Build started 10/20/2013 3:50:59 PM.
+﻿Build started 10/20/2013 9:14:00 PM.
      1>Project "C:\Users\Lionel Honda\Documents\Visual Studio 2012\Projects\RayTracer\RayTracer\RayTracer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\Lionel Honda\Documents\Visual Studio 2012\eigen-eigen-ffa86ffb5570" /I"C:\Users\Lionel Honda\Documents\Visual Studio 2012\CImg-1.5.7_rolling131012" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Shape.cpp
-         Shape.cpp
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\shape.cpp(42): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\shape.cpp(50): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\shape.cpp(171): warning C4715: 'Shape::intersect' : not all control paths return a value
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\shape.cpp(176): warning C4700: uninitialized local variable 'local' used
-     1>c:\users\lionel honda\documents\visual studio 2012\projects\raytracer\raytracer\shape.cpp(176): warning C4700: uninitialized local variable 'thit' used
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\Lionel Honda\Documents\Visual Studio 2012\eigen-eigen-ffa86ffb5570" /I"C:\Users\Lionel Honda\Documents\Visual Studio 2012\CImg-1.5.7_rolling131012" /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Parser.cpp Scene.cpp main.cpp
+     1>cl : Command line warning D9007: '/Gm' requires '/Zi or /ZI'; option ignored
+         Parser.cpp
+     1>Parser.cpp(62): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Parser.cpp(63): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Parser.cpp(96): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(97): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(98): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(99): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(100): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(101): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(102): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(103): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(104): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(105): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(181): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(227): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(244): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(262): warning C4244: 'argument' : conversion from 'double' to 'unsigned int', possible loss of data
+     1>Parser.cpp(299): warning C4244: 'argument' : conversion from 'double' to 'unsigned int', possible loss of data
+     1>Parser.cpp(333): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(337): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(341): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(357): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(358): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(359): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(360): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(367): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(368): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(371): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(372): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(379): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(381): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(387): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(389): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(396): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(397): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(400): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(401): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(424): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(429): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(434): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(472): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(474): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(494): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(496): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(512): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(521): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(531): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(540): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(547): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Parser.cpp(556): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         Scene.cpp
+     1>Scene.cpp(20): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+         main.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Lionel Honda\Documents\Visual Studio 2012\Projects\RayTracer\Debug\RayTracer.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Lionel Honda\Documents\Visual Studio 2012\Projects\RayTracer\Debug\RayTracer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Lionel Honda\Documents\Visual Studio 2012\Projects\RayTracer\Debug\RayTracer.lib" /MACHINE:X86 Debug\AggregatePrimitive.obj
          Debug\BRDF.obj
@@ -37,4 +86,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.69
+Time Elapsed 00:00:17.65

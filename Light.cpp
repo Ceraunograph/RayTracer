@@ -21,7 +21,7 @@ void Light::generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor, float* d
 		*dist = sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
 		lray->t_min = 0.0;
 		lray->t_max = std::numeric_limits<float>::max();
-		//lray->dir.normalize();
+		lray->dir.normalize();
 
 		lcolor->setValue(color.r, color.g, color.b);
 	}else if (point) {
@@ -31,7 +31,6 @@ void Light::generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor, float* d
 		*dist = sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
 		lray->t_min = 0.0;
 		lray->t_max = std::numeric_limits<float>::max();
-		//lray->dir.normalize();
 
 		lcolor->setValue(color.r, color.g, color.b);
 

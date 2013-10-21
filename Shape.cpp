@@ -13,12 +13,24 @@ void Shape::setValue(float _x, float _y, float _z, float _radius, Point _v1, Poi
 		z = _z;
 		radius = _radius;
 
+		if (abs(x) < 0.0000001) {
+			x = 0;
+		}
+
+		if (abs(y) < 0.0000001) {
+			y = 0;
+		}
+
+		if (abs(z) < 0.0000001) {
+			z = 0;
+		}
+
 		center.setValue(x, y, z);
 
 	} else if (shape == 1) {
 		sphere = false;
 		triangle = true;
-		
+
 		v1 = _v1;
 		v2 = _v2;
 		v3 = _v3;  
@@ -30,18 +42,18 @@ void Shape::setValue(float _x, float _y, float _z, float _radius, Point _v1, Poi
 
 
 bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
+
 	// (P-C).(P-C) = r^2
 	// (P0 + tD - C).(P0 + tD - C) = r^2
 	// (d.d)t^2 + 2(P0-C).dt + (P0-C).(P0-C)-r^2 = 0
+
 	// At^2 + Bt + C = 0
 	Vector temp1;
 	temp1.createFromPoints(center, ray.pos);
-
 	// set up equation
 	float A = ray.dir.dotProduct(ray.dir); // dot product for vector needed
 	float B = 2.0 * (temp1.dotProduct(ray.dir));
 	float C = temp1.dotProduct(temp1) - (radius * radius);
-
 	// solve quadratic equation
 	float D = B * B - 4 * A * C;
 	if (D < 0.0) {
@@ -51,18 +63,16 @@ bool Shape::intersectSphere(Ray& ray, float* thit, LocalGeo* local){
 		if (*thit < ray.t_min || *thit == ray.t_min || *thit > ray.t_max) {
 			return false;
 		} else {
-
 		}
 	}
-
 	// get point and normal for local geo
 	Point point;
 	point.setValue(ray.pos.x + ray.dir.x * *thit, ray.pos.y + ray.dir.y * *thit, ray.pos.z + ray.dir.z * *thit);
 	Normal normal;
-	normal.setValue(point.x - center.x, point.y - center.y, center.z - center.z);
+	normal.setValue(point.x - center.x, point.y - center.y, point.z - center.z);
 
 	local->setValue(point, normal);
-	
+
 	return true;
 
 }
@@ -75,7 +85,7 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	Vector edge31;
 	Vector edge12;
 	Vector edge23;
-	
+
 	edge21.setValue(v2.x-v1.x, v2.y-v1.y, v2.z-v1.z);   // one edge of the triangle
 	edge32.setValue(v3.x-v2.x, v3.y-v2.y, v3.z-v2.z);   // another edge of the triangle     (counterclockwise fashion)
 	edge13.setValue(v1.x-v3.x, v1.y-v3.y, v1.z-v3.z);   // third edge of the triangle
@@ -105,7 +115,7 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	*thit = - (num / denom);
 
 	if (abs(*thit) < 0.0000001) { 
-			*thit = 0;
+		*thit = 0;
 	}
 
 	if (*thit < ray.t_min  || *thit > ray.t_max){  // hit time outside of boundary
@@ -116,19 +126,19 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	float xtemp, ytemp, ztemp;
 
 	if (abs(ray.pos.x + ray.dir.x * *thit) < 0.0000001) {
-		xtemp = 0;
+	xtemp = 0;
 	} else {
-		xtemp = ray.pos.x + ray.dir.x * *thit;
+	xtemp = ray.pos.x + ray.dir.x * *thit;
 	}
 	if (abs(ray.pos.y + ray.dir.y * *thit) < 0.0000001) {
-		ytemp = 0;
+	ytemp = 0;
 	} else {
-		ytemp = ray.pos.y + ray.dir.y * *thit;
+	ytemp = ray.pos.y + ray.dir.y * *thit;
 	}
 	if (abs(ray.pos.z + ray.dir.z * *thit) < 0.0000001) {
-		ztemp = 0;
+	ztemp = 0;
 	} else {
-		ztemp = ray.pos.z + ray.dir.z * *thit;
+	ztemp = ray.pos.z + ray.dir.z * *thit;
 	}
 	*/
 	Point hitPoint;
@@ -136,16 +146,16 @@ bool Shape::intersectTriangle(Ray& ray, float* thit, LocalGeo* local){
 	Vector vertexToPoint;
 
 
-        
+
 	vertexToPoint.createFromPoints(v1, hitPoint);
 	float leftOfEdge1 = (edge21.crossProduct(edge31)).dotProduct(edge21.crossProduct(vertexToPoint));
 	vertexToPoint.createFromPoints(v2, hitPoint);
 	float leftOfEdge2 = (edge32.crossProduct(edge12)).dotProduct(edge32.crossProduct(vertexToPoint));
 	vertexToPoint.createFromPoints(v3, hitPoint); 
 	float leftOfEdge3 = (edge13.crossProduct(edge23)).dotProduct(edge13.crossProduct(vertexToPoint));
-	
+
 	//cout << leftOfEdge1 << "and" << leftOfEdge2 << "and" << leftOfEdge3;
-	 
+
 	if (leftOfEdge1 < 0.0 || leftOfEdge2 < 0.0 || leftOfEdge3 < 0.0){ // hit point not inside the triangle 
 		//cout << "not inside the trianlge \n";
 		return false;	

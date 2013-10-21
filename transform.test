@@ -1,0 +1,19 @@
+size 640 480
+
+camera 0 0 4 0 0 0 0 1 0 30
+
+#ambient .1 .1 .1
+#directional 0 0 1 .7 .7 .7 
+point 4 1 4 .5 .5 .5
+diffuse 1 0 0 
+#specular .3 0 0
+#emission 1 0 0
+
+maxverts 3
+
+vertex 0 +1 0
+vertex -1 0 +1
+vertex +1 -1 -1
+
+tri 0 1 2
+

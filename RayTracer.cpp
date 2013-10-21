@@ -25,7 +25,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 			bool pointLight;
 
 			(*it).generateLightRay(in.localGeo, &lray, &lcolor, &dist, &pointLight);
-			
+
 			// Check if the light is blocked or not (shadows)
 			if (!primitive.intersectP(lray, thit, in)) {
 				// If not blocked, do shading calculation for this
@@ -35,8 +35,13 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 				tempColor = shading(in.localGeo, brdf, lray, ray, lcolor, brdf.shine, dist, pointLight);
 				color->add(tempColor);
 			} else {
-				//std::cout << "NOOOOO";
+
 			}
+			/*
+			Color tempColor;
+			tempColor = shading(in.localGeo, brdf, lray, ray, lcolor, brdf.shine, dist, pointLight);
+			color->add(tempColor);
+			*/
 		}
 
 		if (lights.size() > 0) {
@@ -46,7 +51,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 		}
 
 		color->add(brdf.kr);
-		
+
 
 		//std::cout << "hello";
 		/*
@@ -98,19 +103,33 @@ Color RayTracer::shading(LocalGeo local, BRDF brdf, Ray lray, Ray vray, Color lc
 	Color color;
 	Vector normal_vector;
 	normal_vector.setValue(local.normal.x, local.normal.y, local.normal.z);
-	float diffuse = normal_vector.dotProduct(lray.dir);
+	float diffuse = lray.dir.dotProduct(normal_vector);
+
+	if (diffuse < 0.0) {
+		diffuse = 0.0;
+	}
 
 	Vector reflect;
 	float scalar = 2.0 * lray.dir.dotProduct(normal_vector);
+
+	if (scalar < 0.0) {
+		scalar = 0;
+	}
+
 	reflect.setValue(local.normal.x * scalar, local.normal.y * scalar, local.normal.z * scalar);
 	reflect.setValue(reflect.x - lray.dir.x, reflect.y - lray.dir.y, reflect.z - lray.dir.z); //reflect vector
 	reflect.normalize();
-	float specular = reflect.dotProduct(vray.dir);
+	float specular = - reflect.dotProduct(vray.dir);
+
+	if (specular < 0) {
+		specular = 0;
+	}
+
 	specular = pow(specular, coeff);
 
-	dist = pow(dist, -2);
+	//dist = pow(dist, -2.0);
 
-	float atten = 1;
+	float atten = 1.0;
 
 	if (pointLight){ 
 		atten = attenuation.r + attenuation.g * dist + attenuation.b * dist * dist ;

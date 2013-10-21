@@ -1,0 +1,14 @@
+size 640 480
+
+camera 0 0 4 0 0 0 0 1 0 30
+
+#ambient .05 .05 .05
+#directional 4 1 4 .5 .5 .5
+point 4 1 4 1 1 1
+#diffuse .5 0 0 
+specular 1 0 0
+shininess 10
+#emission 1 0 0
+#attenuation 0 1 0
+
+sphere 0 0 0 1

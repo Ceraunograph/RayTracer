@@ -25,6 +25,8 @@ public:
         bool intersectTriangle(Ray& ray, float* thit, LocalGeo* local);
         bool intersect(Ray& ray, float* thit, LocalGeo* local); // thit = time hit
         bool intersectP(Ray& ray);
+		bool intersectPSphere(Ray& ray);
+		bool intersectPTriangle(Ray& ray);
 
         //world view = view relative to the camera
         //object view = view relative to the center of the object

@@ -27,45 +27,34 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 			(*it).generateLightRay(in.localGeo, lray, lcolor, &dist, &pointLight);
 			
 			// Check if the light is blocked or not (shadows)
-			if (!primitive.intersectP(*lray, thit, in)) {
-				// If not blocked, do shading calculation for this
-				// light source
-
-				Color tempColor;
-				tempColor = shading(in, brdf, *lray, ray, *lcolor, brdf.shine, dist, pointLight);
-				color->add(tempColor);
-			} else {
-				//color->setValue(0.0, 0.0, 0.0);
+			if (!primitive.intersectP(*lray)) {
+			// If not blocked, do shading calculation for this
+			// light source
+			color->add(shading(in, brdf, *lray, ray, *lcolor, brdf.shine, dist, pointLight));
 			}
 			/*
-			Color tempColor;
-			tempColor = shading(in, brdf, *lray, ray, *lcolor, brdf.shine, dist, pointLight);
-			color->add(tempColor);
+			color->add(shading(in, brdf, *lray, ray, *lcolor, brdf.shine, dist, pointLight));
 			*/
 		}
-
-
-		if (lights.size() > 0) {
+		if (lights.size() > 0) { 
 			color->add(brdf.ka);
-		} else {
-			//std::cout << "no ambient";
 		}
 
 		color->add(brdf.kr);
 
 
-		//std::cout << "hello";
 		/*
+
 		// Handle mirror reflection
 		if (brdf.kr.r + brdf.kr.g + brdf.kr.b > 0) {
-		reflectRay = createReflectRay(in.localGeo, ray);
+			reflectRay = createReflectRay(in.localGeo, ray);
 
-		Color* tempColor = new Color;
-		// Make a recursive Call to trace the reflected ray
-		trace(reflectRay, depth+1, tempColor);
-		color->r += brdf.kr.r * tempColor->r;
-		color->g += brdf.kr.g * tempColor->g;
-		color->b += brdf.kr.b * tempColor->b;
+			Color* tempColor = new Color;
+			// Make a recursive Call to trace the reflected ray
+			trace(reflectRay, depth+1, tempColor);
+			color->r += brdf.kr.r * tempColor->r;
+			color->g += brdf.kr.g * tempColor->g;
+			color->b += brdf.kr.b * tempColor->b;
 		}
 		*/
 
@@ -105,15 +94,16 @@ Color RayTracer::shading(Intersection in, BRDF brdf, Ray lray, Ray vray, Color l
 	Color color;
 	Vector normal_vector;
 
+	lray.dir.normalize();
 	vray.dir.normalize();
 
 	normal_vector.setValue(in.localGeo.normal.x, in.localGeo.normal.y, in.localGeo.normal.z);
 	float diffuse = lray.dir.dotProduct(normal_vector);
-	
+
 	if (diffuse < 0.0) {
 		diffuse = 0.0;
 	}
-	
+
 	Vector reflect;
 	float scalar = 2.0 * lray.dir.dotProduct(normal_vector);
 
@@ -121,10 +111,9 @@ Color RayTracer::shading(Intersection in, BRDF brdf, Ray lray, Ray vray, Color l
 		scalar = 0.0;
 	}
 
-	reflect.setValue(in.localGeo.normal.x * scalar, in.localGeo.normal.y * scalar, in.localGeo.normal.z * scalar);
-	reflect.setValue(reflect.x - lray.dir.x, reflect.y - lray.dir.y, reflect.z - lray.dir.z);
+	reflect.setValue((in.localGeo.normal.x * scalar) - lray.dir.x, (in.localGeo.normal.y * scalar) - lray.dir.y, (in.localGeo.normal.z * scalar) - lray.dir.z);
 	reflect.normalize();
-	
+
 	Ray tempRay;
 	Vector tempVect;
 	tempVect.setValue(-vray.dir.x, -vray.dir.y, -vray.dir.z);
@@ -132,7 +121,7 @@ Color RayTracer::shading(Intersection in, BRDF brdf, Ray lray, Ray vray, Color l
 
 	tempRay = in.primitive->objToWorld * tempRay;
 	tempRay.dir.normalize();
-	
+
 	float specular = reflect.dotProduct(tempRay.dir);
 
 	if (specular < 0) {
@@ -148,8 +137,8 @@ Color RayTracer::shading(Intersection in, BRDF brdf, Ray lray, Ray vray, Color l
 	}
 
 	color.setValue((diffuse * lcolor.r * brdf.kd.r + specular * lcolor.r * brdf.ks.r) / atten,
-				   (diffuse * lcolor.g * brdf.kd.g + specular * lcolor.g * brdf.ks.g) / atten,
-				   (diffuse * lcolor.b * brdf.kd.b + specular * lcolor.b * brdf.ks.b) / atten);
+		(diffuse * lcolor.g * brdf.kd.g + specular * lcolor.g * brdf.ks.g) / atten,
+		(diffuse * lcolor.b * brdf.kd.b + specular * lcolor.b * brdf.ks.b) / atten);
 
 	if (color.r < 0.000001) color.r = 0.0;
 	if (color.g < 0.000001) color.g = 0.0;

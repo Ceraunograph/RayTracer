@@ -27,5 +27,6 @@ void Film::commit(Sample& sample, Color& color) {
 }
 
 void Film::writeImage() {
+	//output_image.display();
 	output_image.save(filename.c_str());
 }

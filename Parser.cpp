@@ -10,7 +10,7 @@ using namespace std;
 
 void Parser::loadScene(std::string file) {
 
-	maxDepth = 0;
+	maxDepth = 5;
 	shininess = 1.0;
 	kr.setValue(0.0, 0.0, 0.0);
 	ka.setValue(0.0, 0.0, 0.0);

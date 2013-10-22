@@ -21,7 +21,7 @@ public:
 
 	void setValue(AggregatePrimitive ap, int max_depth, std::vector<Light*> lights, Color attenuation);
 	void trace(Ray& ray, int depth, Color* color);
-	Ray createReflectRay(LocalGeo local, Ray ray);
+	Ray createReflectRay(Intersection in, Ray ray, int depth);
 	Color shading(Intersection in, BRDF brdf, Ray lray, Ray vray, Color lcolor, float coeff, float dist, bool pointLight);
 };
 

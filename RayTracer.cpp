@@ -26,28 +26,30 @@ void RayTracer::trace(Ray& ray, int depth, Color* color) {
 				(**it).generateLightRay(in.localGeo, lray, lcolor, &dist, &pointLight);
 
 				// Check if the light is blocked or not (shadows)
-				if (!primitive.intersectP(*lray)) {
+				if (!primitive.intersectP(*lray, depth)) {
 					// If not blocked, do shading calculation for this
 					// light source
 					color->add(shading(in, brdf, *lray, ray, *lcolor, brdf.shine, dist, pointLight));
 				}
 			}
-			if (lights.size() > 0) { 
-				color->add(brdf.ka);
-			}
-
 			color->add(brdf.kr);
 
 			// Handle mirror reflection
-			if (brdf.shine > 0.0) {
+			if (brdf.ks.r + brdf.ks.g + brdf.ks.b > 0.0) {
 				reflectRay = createReflectRay(in, ray, depth);
 				// Make a recursive Call to trace the reflected ray
+				depth++;
 				Color* reflectColor = new Color;
-				trace(reflectRay, depth+1.0, reflectColor);
 
-				color->r += /*brdf.ks.r * */reflectColor->r;
-				color->g += /*brdf.ks.g * */reflectColor->g;
-				color->b += /*brdf.ks.b * */reflectColor->b;
+				trace(reflectRay, depth, reflectColor);
+				//color->add(*reflectColor);
+				color->r += brdf.ks.r * brdf.shine * reflectColor->r;
+				color->g += brdf.ks.g * brdf.shine * reflectColor->g;
+				color->b += brdf.ks.b * brdf.shine * reflectColor->b;
+			}
+
+			if (lights.size() > 0) {
+				color->add(brdf.ka);
 			}
 		}
 	}
@@ -60,31 +62,34 @@ void RayTracer::setValue(AggregatePrimitive _ap, int _max_depth, std::vector<Lig
 	attenuation = _attenuation;
 }
 
-Ray RayTracer::createReflectRay(Intersection in, Ray ray, int depth) {
+Ray RayTracer::createReflectRay(Intersection _in, Ray ray, int depth) {
 	Vector normal_vector;
 	Vector reflect;
 	Vector viewRay;
 	Ray return_ray;
+	Point cameraSpacePos;
 
 	viewRay.setValue(-ray.dir.x, -ray.dir.y, -ray.dir.z);
+	cameraSpacePos.setValue(_in.localGeo.pos.x, _in.localGeo.pos.y, _in.localGeo.pos.z);
 
-	viewRay = in.primitive->objToWorld * (in.primitive->toCameraInverse * viewRay);
+	if (depth == 0) {
+		viewRay = _in.primitive->worldToObj * (_in.primitive->toCameraInverse * viewRay);
+	} else {
+		viewRay = _in.primitive->worldToObj * viewRay;
+	}
 	viewRay.normalize();
 
-	normal_vector.setValue(in.localGeo.normal.x, in.localGeo.normal.y, in.localGeo.normal.z);
+	normal_vector.setValue(_in.localGeo.normal.x, _in.localGeo.normal.y, _in.localGeo.normal.z);
 
 	float scalar = 2.0 * viewRay.dotProduct(normal_vector);
 
 	reflect.setValue((normal_vector.x * scalar) - viewRay.x, (normal_vector.y * scalar) - viewRay.y, (normal_vector.z * scalar) - viewRay.z);
 	reflect.normalize();
 
-	Point cameraSpacePos;
-	cameraSpacePos.setValue(in.localGeo.pos.x, in.localGeo.pos.y, in.localGeo.pos.z);
-
 	return_ray.setValue(cameraSpacePos, reflect, 0.00001f, ray.t_max);
 	return_ray.dir.normalize();
 
-	return in.primitive->worldToObj * return_ray;
+	return in.primitive->toCamera * return_ray;
 }
 
 Color RayTracer::shading(Intersection in, BRDF brdf, Ray lray, Ray vray, Color lcolor, float coeff, float dist, bool pointLight) {

@@ -21,7 +21,7 @@ public:
 	
 	void setValue(Transformation& _objToWorld, Transformation& _worldToObj, Transformation& _toCamera, Transformation& _toCameraInverse, Shape* shape, Material* mat);
 	bool intersect(Ray& ray, float* thit, Intersection* in);
-	bool intersectP(Ray& ray);
+	bool intersectP(Ray& ray, int depth);
 	void getBRDF(LocalGeo& local, BRDF* brdf);
 };
 

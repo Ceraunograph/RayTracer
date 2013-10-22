@@ -18,11 +18,18 @@ bool GeometricPrimitive::intersect(Ray& ray, float* thit, Intersection* in) {
 	return true;
 }
 
-bool GeometricPrimitive::intersectP(Ray& ray) {
-	if (!shape->intersectP(objToWorld * ray))  {
-		return false;
+bool GeometricPrimitive::intersectP(Ray& ray, int depth) {
+	if (depth == 0) {
+		if (!shape->intersectP(objToWorld * ray))  {
+			return false;
+		}
+		return true;
+	} else {
+		if (!shape->intersectP(objToWorld * (toCameraInverse * ray)))  {
+			return false;
+		}
+		return true;
 	}
-	return true;
 }
 
 void GeometricPrimitive::getBRDF(LocalGeo& local, BRDF* brdf) {
